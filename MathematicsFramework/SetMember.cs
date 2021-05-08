@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MathematicsFramework
 {
-    public abstract class SetElement:SetMember
+     public abstract class SetMember
     {
     }
 }

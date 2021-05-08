@@ -2,7 +2,7 @@
 
 namespace MathematicsFramework
 {
-    public class Set
+    public abstract class Set:SetMember
     {
     }
 }
