@@ -6,14 +6,14 @@ namespace TestComponentMathematicsFramework
     [TestClass]
     public class UnitTestSet
     {
-        private class TestSet : Set { }
+      
+        private class TestSet: Set<SetMember> { }
         private class TestElement : SetElement { }
         [TestMethod]
         public void TestSetElementIsTrue()
         {
             TestSet testSet = new TestSet();
             testSet.AddMember(new TestElement());
-            bool result = testSet[0].IsSetElement;
             Assert.IsTrue(testSet[0].IsSetElement);
         }
         [TestMethod]

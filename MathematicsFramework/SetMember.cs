@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 
 namespace MathematicsFramework
 {
-     public abstract class SetMember:ISetMember
+     public abstract class SetMember
     {
         public bool IsSetElement => GetType().IsSubclassOf(typeof(SetElement));
-        public bool IsSet => GetType().IsSubclassOf(typeof(Set));
+        public bool IsSet => GetType().IsSubclassOf(typeof(Set<SetMember>));
+
+
     }
 }

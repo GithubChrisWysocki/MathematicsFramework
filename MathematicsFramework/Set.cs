@@ -1,32 +1,46 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace MathematicsFramework
 {
-    public abstract class Set: SetMember
+    public abstract class Set<T> : SetMember where T:SetMember
     {
         private SetCollection innerMembers;
 
-        private class SetCollection : CollectionBase 
+        public class SetCollection : HashSet<T>
         {
-            public ArrayList InnerList => base.InnerList; 
-        }
-        public Set()
-        {
-        innerMembers=    new SetCollection();
+  
         }
 
-        public ISetMember this[int key]
+        public int Count { get => innerMembers.Count; }
+
+
+        public void Clear() => innerMembers.Clear();
+        public IEnumerator GetEnumerator() => innerMembers.GetEnumerator();
+        public void RemoveAt(T setMember) => innerMembers.Remove( setMember);
+
+        public Set()
+        {
+            innerMembers = new SetCollection();
+        }
+
+        public SetMember this[int key]
         {
             get
             {
-                return innerMembers.InnerList[key] as ISetMember;
+                for (int i = 0;key < innerMembers.Count || i < key; i++)
+                {
+                     innerMembers.GetEnumerator().MoveNext();
+                }
+                return innerMembers.GetEnumerator().Current;
             }
         }
-        public void AddMember(ISetMember setMember)
-        {
-            innerMembers.InnerList.Add(setMember);
-        }
 
+        public void AddMember(T setMember)
+        {
+            innerMembers.Add(setMember);
+        }
+        public SetCollection GetAllMember() => innerMembers;
     }
 }
