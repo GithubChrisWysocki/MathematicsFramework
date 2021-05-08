@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MathematicsFramework
+﻿namespace MathematicsFramework
 {
-     public abstract class SetMember
+    public abstract class SetMember:ISetMember
     {
+        protected SetMember()
+        {
+
+        }
         public bool IsSetElement => GetType().IsSubclassOf(typeof(SetElement));
         public bool IsSet => GetType().IsSubclassOf(typeof(Set<SetMember>));
     }

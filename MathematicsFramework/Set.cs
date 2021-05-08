@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace MathematicsFramework
 {
-    public abstract class Set<T> : SetMember where T:SetMember
+    public abstract class Set<T> : SetMember where T:ISetMember
     {
         private SetCollection innerMembers;
 
@@ -15,7 +13,7 @@ namespace MathematicsFramework
             innerMembers = new SetCollection();
         }
 
-        public SetMember? this[int key]
+        public ISetMember? this[int key]
         {
             get
             {
