@@ -6,22 +6,25 @@ namespace TestComponentMathematicsFramework
     [TestClass]
     public class UnitTestSet
     {
-      
-        private class TestSet: Set<SetMember> { }
+
+        private class TestSet : Set<SetMember> { }
         private class TestElement : SetElement { }
+        static TestSet testSet;
+        static UnitTestSet()
+        {
+            testSet = new TestSet();
+            testSet.AddMember(new TestElement());
+            testSet.AddMember(new TestSet());
+        }
         [TestMethod]
         public void TestSetElementIsTrue()
         {
-            TestSet testSet = new TestSet();
-            testSet.AddMember(new TestElement());
             Assert.IsTrue(testSet[0].IsSetElement);
         }
         [TestMethod]
         public void TestSetIsTrue()
         {
-            TestSet testSet = new TestSet();
-            testSet.AddMember(new TestSet());
-            Assert.IsTrue(testSet[0].IsSet);
+            Assert.IsTrue(testSet[1].IsSet);
         }
     }
 }

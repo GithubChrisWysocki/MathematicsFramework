@@ -25,15 +25,17 @@ namespace MathematicsFramework
             innerMembers = new SetCollection();
         }
 
-        public SetMember this[int key]
+        public SetMember? this[int key]
         {
             get
             {
-                for (int i = 0;key < innerMembers.Count || i < key; i++)
+                int i = 0;
+                foreach (var item in innerMembers)
                 {
-                     innerMembers.GetEnumerator().MoveNext();
+                    if (key == i++)
+                        return item;
                 }
-                return innerMembers.GetEnumerator().Current;
+                return null;
             }
         }
 
