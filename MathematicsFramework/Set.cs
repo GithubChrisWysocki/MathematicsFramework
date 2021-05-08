@@ -3,24 +3,30 @@ using System.Collections;
 
 namespace MathematicsFramework
 {
-    public abstract class Set: CollectionBase ,ISetMember
+    public abstract class Set: SetMember
     {
+        private SetCollection innerMembers;
+
+        private class SetCollection : CollectionBase 
+        {
+            public ArrayList InnerList => base.InnerList; 
+        }
+        public Set()
+        {
+        innerMembers=    new SetCollection();
+        }
 
         public ISetMember this[int key]
         {
             get
             {
-                return InnerList[key] as ISetMember;
+                return innerMembers.InnerList[key] as ISetMember;
             }
         }
         public void AddMember(ISetMember setMember)
         {
-            InnerList.Add(setMember);
+            innerMembers.InnerList.Add(setMember);
         }
 
-        public bool IsSet=>true;
-
-
-        public bool IsSetElement => false;
     }
 }

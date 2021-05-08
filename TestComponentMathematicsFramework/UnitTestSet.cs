@@ -13,6 +13,7 @@ namespace TestComponentMathematicsFramework
         {
             TestSet testSet = new TestSet();
             testSet.AddMember(new TestElement());
+            bool result = testSet[0].IsSetElement;
             Assert.IsTrue(testSet[0].IsSetElement);
         }
         [TestMethod]

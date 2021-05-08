@@ -8,7 +8,7 @@ namespace MathematicsFramework
 {
      public abstract class SetMember:ISetMember
     {
-        public bool IsSetElement => GetType().IsInstanceOfType(typeof(SetElement));
-        public bool IsSet => GetType().IsInstanceOfType(typeof(Set));
+        public bool IsSetElement => GetType().IsSubclassOf(typeof(SetElement));
+        public bool IsSet => GetType().IsSubclassOf(typeof(Set));
     }
 }

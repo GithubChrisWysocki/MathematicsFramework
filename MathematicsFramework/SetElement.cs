@@ -6,11 +6,8 @@ using System.Threading.Tasks;
 
 namespace MathematicsFramework
 {
-    public abstract class SetElement:ISetMember
+    public abstract class SetElement:SetMember
     {
-        public bool IsSet => false;
 
-
-        public bool IsSetElement => true;
     }
 }
