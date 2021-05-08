@@ -2,7 +2,7 @@
 
 namespace MathematicsFramework
 {
-    public class Class1
+    public class Set
     {
     }
 }
