@@ -26,5 +26,14 @@ namespace TestComponentMathematicsFramework
         {
             Assert.IsTrue(testSet[1].IsSet);
         }
+        [TestMethod]
+        public void TestSetUnion()
+        {
+            TestSet  testSet2 = new TestSet();
+            testSet2.AddMember(new TestSet());
+            testSet.SetUnion(testSet2);
+            var count = testSet.GetAllMember().Count;
+            Assert.IsTrue(count == 3);
+        }
     }
 }

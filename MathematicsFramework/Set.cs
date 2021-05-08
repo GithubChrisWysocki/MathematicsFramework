@@ -8,17 +8,7 @@ namespace MathematicsFramework
     {
         private SetCollection innerMembers;
 
-        public class SetCollection : HashSet<T>
-        {
-  
-        }
-
-        public int Count { get => innerMembers.Count; }
-
-
-        public void Clear() => innerMembers.Clear();
-        public IEnumerator GetEnumerator() => innerMembers.GetEnumerator();
-        public void RemoveAt(T setMember) => innerMembers.Remove( setMember);
+        public class SetCollection : HashSet<T> { }
 
         public Set()
         {
