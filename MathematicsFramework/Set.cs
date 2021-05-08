@@ -16,7 +16,6 @@ namespace MathematicsFramework
         public void AddMember(ISetMember setMember)
         {
             InnerList.Add(setMember);
-            var x = InnerList[0];
         }
 
         public bool IsSet=>true;
