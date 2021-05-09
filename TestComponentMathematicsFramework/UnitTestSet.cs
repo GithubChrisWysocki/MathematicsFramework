@@ -11,16 +11,13 @@ namespace TestComponentMathematicsFramework
         private class TestElement : SetElement<int> { }
         static TestSet testSet;
 
-         static Set<ISetMember> testSet2 { get; }
 
         static UnitTestSet()
         {
             testSet = new TestSet();
             testSet.AddMember(new TestElement());
             testSet.AddMember(new TestSet());
-            testSet2 = SetFactory.CreateSet<TestSet>();
-            testSet2.AddMember(new TestSet());
-            testSet.SetUnion(testSet2);
+
         }
         [TestMethod]
         public void TestSetElementIsTrue()
@@ -35,15 +32,22 @@ namespace TestComponentMathematicsFramework
         [TestMethod]
         public void TestSetUnion()
         {
-            var count = testSet.GetAllMember().Count;
-            Assert.IsTrue(count == 3);
+            int count = 0;
+            Set<ISetMember> testSet2 = SetFactory.CreateSet<TestSet>();
+            testSet2.AddMember(new TestSet());
+            count = testSet2.GetAllMember().Count;
+            Assert.AreEqual(count, 1);
+            testSet2.SetUnion(testSet);
+            count = testSet2.GetAllMember().Count;
+            Assert.AreEqual(count , 3);
         }
         [TestMethod]
         public void TestIsSetMember()
         {
+            Set<ISetMember> testSet2 = SetFactory.CreateSet<TestSet>();
             Assert.IsFalse(testSet.ContainsSet(testSet2));
-            testSet.AddMember(testSet2);
-            bool res= testSet.ContainsSet(testSet2);
+            testSet2.AddMember(testSet);
+            bool res= testSet2.ContainsSet(testSet);
             Assert.IsTrue(res);
         }
         
