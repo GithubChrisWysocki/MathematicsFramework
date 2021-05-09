@@ -9,8 +9,7 @@ namespace TestConsoleMathematicsFramework
         private class TestElement : SetElement<int> { }
         static void Main(string[] args)
         {
-
-        TestSet testSet = new TestSet();
+            TestSet testSet = new TestSet();
             testSet.AddMember(new TestElement());
             var result=  testSet[0];
         }

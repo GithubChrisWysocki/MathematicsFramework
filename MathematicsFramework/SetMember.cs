@@ -8,6 +8,6 @@
             return GetType().IsSubclassOf(typeof(SetElement<T>));
         }
 
-        public bool IsSet => GetType().IsSubclassOf(typeof(Set<SetMember>));
+        public bool IsSet => GetType().IsSubclassOf(typeof(Set<ISetMember>));
     }
 }
