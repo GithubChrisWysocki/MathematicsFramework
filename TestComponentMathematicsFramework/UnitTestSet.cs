@@ -8,7 +8,7 @@ namespace TestComponentMathematicsFramework
     {
 
         private class TestSet : Set<SetMember> { }
-        private class TestElement : SetElement { }
+        private class TestElement : SetElement<int> { }
         static TestSet testSet;
         static UnitTestSet()
         {
@@ -19,7 +19,7 @@ namespace TestComponentMathematicsFramework
         [TestMethod]
         public void TestSetElementIsTrue()
         {
-            Assert.IsTrue(testSet[0].IsSetElement);
+            Assert.IsTrue(testSet[0].IsSetElement<int>());
         }
         [TestMethod]
         public void TestSetIsTrue()

@@ -6,7 +6,7 @@ namespace TestConsoleMathematicsFramework
     class Program
     {
         private class TestSet : Set<SetMember> { }
-        private class TestElement : SetElement { }
+        private class TestElement : SetElement<int> { }
         static void Main(string[] args)
         {
 

@@ -2,7 +2,7 @@
 {
     public interface ISetMember
     {
-        public bool IsSetElement { get; }
+        public bool IsSetElement<T>() where T : struct;
         public bool IsSet { get; }
     }
 }
