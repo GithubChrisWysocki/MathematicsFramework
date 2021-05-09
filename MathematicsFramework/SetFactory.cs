@@ -4,17 +4,17 @@ namespace MathematicsFramework
 {
     public static class SetFactory
     {
-        public static Set<ISetMember> CreatePowerSet<T>(T[] setMembers) where T : Set<ISetMember>
+        public static Set<SetMember> CreatePowerSet<T>(T[] setMembers) where T : Set<SetMember>
         {
             //todo
             return null;
         }
-        public static Set<ISetMember> CreateSet<T>() where T : Set<ISetMember>
+        public static Set<SetMember> CreateSet<T>() where T : Set<SetMember>
         {
-            return (Set<ISetMember>)Activator.CreateInstance(typeof(T));
+            return (Set<SetMember>)Activator.CreateInstance(typeof(T));
         }
 
-        public static Set<ISetMember> CreateSet<T>(T[] setMembers) where T : Set<ISetMember>
+        public static Set<SetMember> CreateSet<T>(T[] setMembers) where T : Set<SetMember>
         {
             var result = CreateSet<T>();
             foreach (var item in setMembers)

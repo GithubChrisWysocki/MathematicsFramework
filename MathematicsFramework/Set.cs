@@ -2,22 +2,20 @@
 
 namespace MathematicsFramework
 {
-    public abstract class Set<T> : SetMember,ISetMember where T:ISetMember
+    public abstract class Set<T> : SetMember where T : SetMember
     {
         private SetCollection innerMembers;
-
         public class SetCollection : HashSet<T> { }
-
         public Set()
         {
             innerMembers = new SetCollection();
         }
-        public bool ContainsSet(T setToCheck)
+        public bool ContainsMember(T memberToCheck)
         {
-          return  innerMembers.Contains(setToCheck);
+            return innerMembers.Contains(memberToCheck);
         }
 
-        public ISetMember? this[int key]
+        public SetMember? this[int key]
         {
             get
             {
@@ -25,7 +23,7 @@ namespace MathematicsFramework
                 foreach (var item in innerMembers)
                     if (key == i++)
                         return item;
-                
+
                 return null;
             }
         }
