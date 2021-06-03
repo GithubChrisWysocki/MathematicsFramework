@@ -4,6 +4,10 @@ namespace MathematicsFramework
 {
     public abstract class Set<T> : SetMember where T : SetMember
     {
+        public static Set<SetMember> CreateSet<T>() where T : Set<SetMember>,new()
+        {
+            return new T() as Set<SetMember>; //(Set<SetMember>)Activator.CreateInstance(typeof(T));
+        }
         private SetCollection innerMembers;
         public class SetCollection : HashSet<T> { }
         public Set()

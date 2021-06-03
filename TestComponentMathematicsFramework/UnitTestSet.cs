@@ -6,7 +6,7 @@ namespace TestComponentMathematicsFramework
     [TestClass]
     public class UnitTestSet
     {
-        private class TestSet : Set<SetMember> { }
+        public class TestSet : Set<SetMember> { }
         private class TestElement : SetElement<int> { }
         static TestSet testSet;
         static TestElement testElement;
@@ -31,22 +31,21 @@ namespace TestComponentMathematicsFramework
         public void TestSetUnion()
         {
             int count = 0;
-            Set<SetMember> testSet2 = SetFactory.CreateSet<TestSet>();
-            testSet2.AddMember(new TestSet());
+            Set<SetMember> testSet2 = SetFactory.CreateSet<TestSet>(new TestSet[] { new TestSet() });
             count = testSet2.GetAllMember().Count;
             Assert.AreEqual(count, 1);
             testSet2.SetUnion(testSet);
             count = testSet2.GetAllMember().Count;
-            Assert.AreEqual(count , 3);
+            Assert.AreEqual(count, 3);
         }
         [TestMethod]
         public void TestIsSetMember()
         {
-            Set<SetMember> testSet2 = SetFactory.CreateSet<TestSet>();
+            Set<SetMember> testSet2 = SetFactory.CreateSet<TestSet>(null);
             Assert.IsFalse(testSet.ContainsMember(testSet2));
             testSet2.AddMember(testSet);
             bool res = testSet2.ContainsMember(testSet);
-            Assert.IsTrue(res);
+            Assert.IsTrue(false);
             testSet2.SetUnion(testSet);
             Assert.IsTrue(testSet2.ContainsMember(testElement));
         }
