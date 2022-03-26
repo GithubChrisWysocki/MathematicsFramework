@@ -2,9 +2,9 @@
 {
     public static class SetOperations
     {
-        public static void SetUnion<T>(this Set<T> set, Set<T> unionSet) where T:SetMember
+        public static void SetUnion<T>(this MathSet<T> mathSet, MathSet<T> unionMathSet) where T:SetMember
         {
-            set.GetAllMember().UnionWith(unionSet.GetAllMember());
+            mathSet.GetAllMember().UnionWith(unionMathSet.GetAllMember());
         }
         //public static bool IsSetMember<T>(this Set<T> set , Set<T> memberOfSet) where T : ISetMember
         //{

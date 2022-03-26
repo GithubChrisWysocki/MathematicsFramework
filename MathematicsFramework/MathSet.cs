@@ -2,15 +2,15 @@
 
 namespace MathematicsFramework
 {
-    public abstract class Set<T> : SetMember where T : SetMember
+    public abstract class MathSet<T> : SetMember where T : SetMember
     {
-        public static Set<SetMember> CreateSet<T>() where T : Set<SetMember>,new()
+        public static MathSet<SetMember> CreateSet<T>() where T : MathSet<SetMember>,new()
         {
-            return new T() as Set<SetMember>; //(Set<SetMember>)Activator.CreateInstance(typeof(T));
+            return new T(); //(Set<SetMember>)Activator.CreateInstance(typeof(T));
         }
         private SetCollection innerMembers;
         public class SetCollection : HashSet<T> { }
-        public Set()
+        public MathSet()
         {
             innerMembers = new SetCollection();
         }
