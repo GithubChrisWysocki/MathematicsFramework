@@ -1,5 +1,9 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using MathematicsFramework;
+using Microsoft.VisualBasic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace TestComponentMathematicsFramework
@@ -7,18 +11,20 @@ namespace TestComponentMathematicsFramework
     [TestClass]
     public class UnitTestSet
     {
-        public class TestMathSet : MathSet<SetMember> { }
+        public class TestMathSet : MathGenericSet<SetMember> { }
         private class TestElement : SetElement<int> { }
         private class TestElement2 : SetElement<decimal> { }
 
         static TestMathSet _testMathSet;
+        static TestMathSet2 _testMathSet2;
         static TestElement testElement;
         private static TestElement2 testElement2;
-
+        public class TestMathSet2 : MathGenericSet<int> { }
         [TestInitialize]
         public void Setup()
         {
             _testMathSet = new TestMathSet();
+            _testMathSet2 = new TestMathSet2();
             testElement = new TestElement();
             testElement2 = new TestElement2();
             object c = testElement2;
@@ -50,6 +56,20 @@ namespace TestComponentMathematicsFramework
         {
             Assert.IsTrue(_testMathSet[2].IsSet);
         }
+
+        [TestMethod]
+        public void AddRandomObject()
+        {
+            _testMathSet2.AddMember(1);
+
+            var h1 = new ArrayList();
+            var h2 = new ArrayList();
+            h1.Add("asdf");
+            h2.Add(1);
+            h1.Cast<string>().Union(h1.Cast<string>());
+
+        }
+
         [TestMethod]
         public void TestSetUnion()
         {

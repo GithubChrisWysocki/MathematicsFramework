@@ -9,6 +9,6 @@ namespace MathematicsFramework
 
         public bool IsSetElement() => GetType().IsSubclassOf(typeof(SetElement));
         
-        public bool IsSet => GetType().IsSubclassOf(typeof(MathSet<SetMember>));
+        public bool IsSet => GetType().IsSubclassOf(typeof(MathGenericSet<SetMember>));
     }
 }

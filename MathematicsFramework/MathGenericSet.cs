@@ -1,21 +1,27 @@
 ﻿using KellermanSoftware.CompareNetObjects;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
+
 namespace MathematicsFramework
 {
-    public abstract class MathSet<T> : SetMember where T : SetMember
+    public abstract class MathGenericSet : SetMember
     {
-        public static MathSet<SetMember> CreateSet<T>() where T : MathSet<SetMember>, new()
+        protected virtual ArrayList innerMembers { get; set; }
+        public ArrayList GetAllMember() => innerMembers;
+    }
+    public abstract class MathGenericSet<T> : MathGenericSet
+    {
+        public static MathGenericSet<SetMember> CreateSet<T>() where T : MathGenericSet<SetMember>, new()
         {
             return new T(); //(Set<SetMember>)Activator.CreateInstance(typeof(T));
         }
-        private SetCollection innerMembers;
+        private new SetCollection innerMembers { get; set; }
         public class SetCollection : HashSet<T>
         {
             public SetCollection(IEqualityComparer<T> comparer) : base(comparer) { }
-
         }
         public class DefaultComparer<T> : IEqualityComparer<T>
         {
@@ -34,11 +40,11 @@ namespace MathematicsFramework
                 return obj.GetHashCode();
             }
         }
-        public MathSet()
+        public MathGenericSet()
         {
             innerMembers = new SetCollection(new DefaultComparer<T>());
         }
-        public MathSet(IEqualityComparer<T> comparer)
+        public MathGenericSet(IEqualityComparer<T> comparer)
         {
             innerMembers = new SetCollection(comparer);
         }
@@ -47,7 +53,7 @@ namespace MathematicsFramework
             return innerMembers.Contains(memberToCheck);
         }
 
-        public SetMember? this[int key]
+        public T? this[int key]
         {
             get
             {
@@ -55,8 +61,7 @@ namespace MathematicsFramework
                 foreach (var item in innerMembers)
                     if (key == i++)
                         return item;
-
-                return null;
+                return default;
             }
         }
 
@@ -64,6 +69,6 @@ namespace MathematicsFramework
         {
             innerMembers.Add(setMember);
         }
-        public SetCollection GetAllMember() => innerMembers;
+        public new SetCollection GetAllMember() => innerMembers;
     }
 }

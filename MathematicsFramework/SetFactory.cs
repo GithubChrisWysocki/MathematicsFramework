@@ -4,14 +4,14 @@ namespace MathematicsFramework
 {
     public static class SetFactory
     {
-        public static MathSet<SetMember> CreatePowerSet<T>(T[] setMembers) where T : MathSet<SetMember>
+        public static MathGenericSet<SetMember> CreatePowerSet<T>(T[] setMembers) where T : MathGenericSet<SetMember>
         {
             //todo
             return null;
         }
 
 
-        public static MathSet<SetMember> CreateSet<T>(T[] setMembers) where T : MathSet<SetMember>
+        public static MathGenericSet<SetMember> CreateSet<T>(T[] setMembers) where T : MathGenericSet<SetMember>
         {
             var result = CreateSet<T>(null);// CreateSet<T>();
             foreach (var item in setMembers)
