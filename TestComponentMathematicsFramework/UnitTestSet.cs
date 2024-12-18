@@ -9,20 +9,33 @@ namespace TestComponentMathematicsFramework
     {
         public class TestMathSet : MathSet<SetMember> { }
         private class TestElement : SetElement<int> { }
-        private class TestElement2 :SetElement<decimal>{}
+        private class TestElement2 : SetElement<decimal> { }
+
         static TestMathSet _testMathSet;
         static TestElement testElement;
-        private static readonly TestElement2 testElement2;
+        private static TestElement2 testElement2;
 
-        static UnitTestSet()
+        [TestInitialize]
+        public void Setup()
         {
             _testMathSet = new TestMathSet();
             testElement = new TestElement();
-            testElement2=new TestElement2();
+            testElement2 = new TestElement2();
             object c = testElement2;
             _testMathSet.AddMember(testElement);
+            _testMathSet.AddMember(testElement);
+
             _testMathSet.AddMember(testElement2);
             _testMathSet.AddMember(new TestMathSet());
+        }
+        [TestMethod]
+        public void IgnoreDuplicate()
+        {
+            var i = _testMathSet.GetAllMember().Count;
+            _testMathSet.AddMember(testElement);
+            Assert.AreEqual(i, _testMathSet.GetAllMember().Count);
+            _testMathSet.AddMember(testElement);
+            Assert.AreEqual(i, _testMathSet.GetAllMember().Count);
         }
         [TestMethod]
         public void TestSetElementIsTrue()
@@ -59,6 +72,6 @@ namespace TestComponentMathematicsFramework
             //testSet2.SetUnion(testSet);
             //Assert.IsTrue(testSet2.ContainsMember(testElement));
         }
-        
+
     }
 }
