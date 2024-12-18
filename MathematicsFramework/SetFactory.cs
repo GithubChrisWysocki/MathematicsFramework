@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace MathematicsFramework
+﻿namespace MathematicsFramework
 {
     public static class SetFactory
     {
