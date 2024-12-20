@@ -45,15 +45,15 @@ namespace MathematicsFramework
             }
         }
 
-        public static void SetSymmetricDifference<T>(this MathGenericSet<T> mathSet, MathGenericSet<T> symmetricDifferenceMathSet) where T : SetMember
-        {
-            var symmetricDifference = mathSet.GetAllMember().SymmetricExcept(symmetricDifferenceMathSet.GetAllMember()).ToList();
-            mathSet.GetAllMember().Clear();
-            foreach (var item in symmetricDifference)
-            {
-                mathSet.GetAllMember().Add(item);
-            }
-        }
+        //public static void SetSymmetricDifference<T>(this MathGenericSet<T> mathSet, MathGenericSet<T> symmetricDifferenceMathSet) where T : SetMember
+        //{
+        //    var symmetricDifference = mathSet.GetAllMember().SymmetricExcept(symmetricDifferenceMathSet.GetAllMember()).ToList();
+        //    mathSet.GetAllMember().Clear();
+        //    foreach (var item in symmetricDifference)
+        //    {
+        //        mathSet.GetAllMember().Add(item);
+        //    }
+        //}
         //public static bool IsSetMember<T>(this Set<T> set, Set<T> memberOfSet) where T : ISetMember
         //{
         //    T member = (T)set;
