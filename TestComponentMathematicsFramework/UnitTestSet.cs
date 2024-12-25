@@ -1,10 +1,7 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using MathematicsFramework;
-using Microsoft.VisualBasic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections;
+using System.Linq;
 
 namespace TestComponentMathematicsFramework
 {
@@ -20,6 +17,7 @@ namespace TestComponentMathematicsFramework
         static TestElement testElement;
         private static TestElement2 testElement2;
         public class TestMathSet2 : MathGenericSet<int> { }
+
         [TestInitialize]
         public void Setup()
         {
@@ -34,6 +32,7 @@ namespace TestComponentMathematicsFramework
             _testMathSet.AddMember(testElement2);
             _testMathSet.AddMember(new TestMathSet());
         }
+
         [TestMethod]
         public void IgnoreDuplicate()
         {
@@ -43,6 +42,7 @@ namespace TestComponentMathematicsFramework
             _testMathSet.AddMember(testElement);
             Assert.AreEqual(i, _testMathSet.GetAllMember().Count);
         }
+
         [TestMethod]
         public void TestSetElementIsTrue()
         {
@@ -51,6 +51,7 @@ namespace TestComponentMathematicsFramework
             Assert.IsTrue(_testMathSet[0].IsSetElement());
             Assert.IsTrue(_testMathSet[1].IsSetElement());
         }
+
         [TestMethod]
         public void TestSetIsTrue()
         {
