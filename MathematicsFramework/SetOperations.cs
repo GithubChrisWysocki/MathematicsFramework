@@ -11,13 +11,13 @@ namespace MathematicsFramework
         }
         public static void SetUnion(this MathGenericSet mathSet, MathGenericSet unionMathSet) 
         {
-            mathSet.GetAllMember().UnionWith(unionMathSet.GetAllMember().ToArray());
+            mathSet.GetAllMember().UnionWith(unionMathSet);
         }
-        public static void UnionWith(this ArrayList arrList, object[] set)
+        public static void UnionWith(this ArrayList arrList, MathGenericSet set)
         {
             ArrayList unionList = new ArrayList(arrList);
-
-            foreach (var item in set)
+            
+            foreach (var item in set.GetAllMember())
             {
                 if (!unionList.Contains(item)) // Prevent duplicates
                 {
@@ -44,7 +44,20 @@ namespace MathematicsFramework
                 mathSet.GetAllMember().Add(item);
             }
         }
-
+        public static bool ContainsSet<T>(this ArrayList list, MathGenericSet<T> mathSet)
+        {
+            foreach (var item in list)
+            {
+                if (mathSet.ContainsMember(item))
+                {
+                    return true;
+                }
+                
+                    return false;
+                
+            }
+            return true;
+        }
         //public static void SetSymmetricDifference<T>(this MathGenericSet<T> mathSet, MathGenericSet<T> symmetricDifferenceMathSet) where T : SetMember
         //{
         //    var symmetricDifference = mathSet.GetAllMember().SymmetricExcept(symmetricDifferenceMathSet.GetAllMember()).ToList();
