@@ -13,15 +13,13 @@ namespace MathematicsFramework
         {
             mathSet.GetAllMember().UnionWith(unionMathSet);
         }
-        public static void UnionWith(this ArrayList arrList, MathGenericSet set)
+        private static void UnionWith(this ArrayList arrList, MathGenericSet set)
         {
-            ArrayList unionList = new ArrayList(arrList);
-            
             foreach (var item in set.GetAllMember())
             {
-                if (!unionList.Contains(item)) // Prevent duplicates
+                if (!set.ContainsMember(item)) // Prevent duplicates
                 {
-                    unionList.Add(item);
+                    arrList.Add(item);
                 }
             }
         }
