@@ -9,7 +9,7 @@ namespace MathematicsFramework
     public abstract class MathGenericSet : SetMember
     {
         public IEqualityComparer Comparer { get; set; }
-        protected virtual ArrayList innerMembers { get; set; }
+        public virtual ArrayList innerMembers { get; set; }
         public MathGenericSet()
         {
             Comparer = new DefaultComparer();
@@ -24,9 +24,9 @@ namespace MathematicsFramework
         {
             innerMembers.Add(setMember);
         }
-        public bool ContainsMember(object memberToCheck)
+        public virtual bool ContainsMember(object memberToCheck)
         {
-            foreach (var item in GetAllMember())
+            foreach (var item in innerMembers)
             {
                 if (Comparer.Equals(item, memberToCheck)) // Prevent duplicates
                 {
@@ -35,7 +35,7 @@ namespace MathematicsFramework
             }
             return false;
         }
-        public ArrayList GetAllMember() => innerMembers;
+
         public class DefaultComparer : IEqualityComparer
         {
             public new bool Equals(object x, object y)
@@ -54,14 +54,16 @@ namespace MathematicsFramework
             }
         }
     }
-    public abstract class MathGenericSet<T> : MathGenericSet
+    public abstract class MathGenericSet<T> : MathGenericSet where T : SetMember
     {
-        public new IEqualityComparer<T> Comparer { get; set; }  
-        public static MathGenericSet<SetMember> CreateSet<T>() where T : MathGenericSet<SetMember>, new()
-        {
-            return new T(); //(Set<SetMember>)Activator.CreateInstance(typeof(T));
-        }
-        private new SetCollection innerMembers { get; set; }
+        public new IEqualityComparer<T> Comparer { get; set; }
+
+        // Gehört in SetFactory?!
+        //public static MathGenericSet<SetMember> CreateSet<T>() where T : MathGenericSet<SetMember>, new()
+        //{
+        //    return new T(); //(Set<SetMember>)Activator.CreateInstance(typeof(T));
+        //}
+        public new SetCollection innerMembers { get; set; }
         public class SetCollection : HashSet<T>
         {
             public SetCollection(IEqualityComparer<T> comparer) : base(comparer) { }
@@ -92,11 +94,6 @@ namespace MathematicsFramework
         {
             innerMembers = new SetCollection(comparer);
         }
-        public bool ContainsMember(T memberToCheck)
-        {
-            return innerMembers.Contains(memberToCheck);
-        }
-
         public T? this[int key]
         {
             get
@@ -105,14 +102,28 @@ namespace MathematicsFramework
                 foreach (var item in innerMembers)
                     if (key == i++)
                         return item;
+
                 return default;
             }
         }
-
+        public bool ContainsMember(T memberToCheck)
+        {
+            foreach (var item in innerMembers)
+            {
+                if (Comparer.Equals(item, memberToCheck)) // Prevent duplicates
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
         public void AddMember(T setMember)
         {
-            innerMembers.Add(setMember);
+            if (!ContainsMember(setMember))
+                innerMembers.Add(setMember);
+            else
+                throw new ArgumentException("Member already exists in set and would be selfreferntial.");
         }
-        public new SetCollection GetAllMember() => innerMembers;
+
     }
 }

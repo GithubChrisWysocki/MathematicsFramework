@@ -1,5 +1,6 @@
 using MathematicsFramework;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Collections;
 using System.Linq;
 
@@ -8,7 +9,8 @@ namespace TestComponentMathematicsFramework
     [TestClass]
     public class UnitTestSet
     {
-        public class TestMathSet : MathGenericSet<SetMember> { }
+
+        private class TestMathSet : MathGenericSet<SetMember> { }
         private class TestElement : SetElement<int> { }
         private class TestElement2 : SetElement<decimal> { }
 
@@ -16,7 +18,7 @@ namespace TestComponentMathematicsFramework
         static TestMathSet2 _testMathSet2;
         static TestElement testElement;
         private static TestElement2 testElement2;
-        public class TestMathSet2 : MathGenericSet<int> { }
+        private class TestMathSet2 : MathGenericSet<TestElement> { }
 
         [TestInitialize]
         public void Setup()
@@ -27,7 +29,7 @@ namespace TestComponentMathematicsFramework
             testElement2 = new TestElement2();
             object c = testElement2;
             _testMathSet.AddMember(testElement);
-            _testMathSet.AddMember(testElement);
+            //   _testMathSet.AddMember(testElement);
 
             _testMathSet.AddMember(testElement2);
             _testMathSet.AddMember(new TestMathSet());
@@ -36,11 +38,9 @@ namespace TestComponentMathematicsFramework
         [TestMethod]
         public void IgnoreDuplicate()
         {
-            var i = _testMathSet.GetAllMember().Count;
-            _testMathSet.AddMember(testElement);
-            Assert.AreEqual(i, _testMathSet.GetAllMember().Count);
-            _testMathSet.AddMember(testElement);
-            Assert.AreEqual(i, _testMathSet.GetAllMember().Count);
+            var i = _testMathSet.innerMembers.Count;
+            Assert.ThrowsException<ArgumentException>(() => _testMathSet.AddMember(testElement));
+            Assert.AreEqual(i, _testMathSet.innerMembers.Count);
         }
 
         [TestMethod]
@@ -76,10 +76,10 @@ namespace TestComponentMathematicsFramework
         {
             //int count = 0;
             //Set<SetMember> testSet2 = SetFactory.CreateSet<TestSet>(new TestSet[] { new TestSet() });
-            //count = testSet2.GetAllMember().Count;
+            //count = testSet2.innerMembers.Count;
             //Assert.AreEqual(count, 1);
             //testSet2.SetUnion(testSet);
-            //count = testSet2.GetAllMember().Count;
+            //count = testSet2.innerMembers.Count;
             //Assert.AreEqual(count, 3);
         }
         [TestMethod]

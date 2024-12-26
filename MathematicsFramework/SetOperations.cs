@@ -7,15 +7,15 @@ namespace MathematicsFramework
     {
         public static void SetUnion<T>(this MathGenericSet<T> mathSet, MathGenericSet<T> unionMathSet) where T:SetMember
         {
-            mathSet.GetAllMember().UnionWith(unionMathSet.GetAllMember());
+            mathSet.innerMembers.UnionWith(unionMathSet.innerMembers);
         }
         public static void SetUnion(this MathGenericSet mathSet, MathGenericSet unionMathSet) 
         {
-            mathSet.GetAllMember().UnionWith(unionMathSet);
+            mathSet.innerMembers.UnionWith(unionMathSet);
         }
         private static void UnionWith(this ArrayList arrList, MathGenericSet set)
         {
-            foreach (var item in set.GetAllMember())
+            foreach (var item in set.innerMembers)
             {
                 if (!set.ContainsMember(item)) // Prevent duplicates
                 {
@@ -25,24 +25,24 @@ namespace MathematicsFramework
         }
         public static void SetIntersection<T>(this MathGenericSet<T> mathSet, MathGenericSet<T> intersectMathSet) where T : SetMember
         {
-            var intersection = mathSet.GetAllMember().Intersect(intersectMathSet.GetAllMember()).ToList();
-            mathSet.GetAllMember().Clear();
+            var intersection = mathSet.innerMembers.Intersect(intersectMathSet.innerMembers).ToList();
+            mathSet.innerMembers.Clear();
             foreach (var item in intersection)
             {
-                mathSet.GetAllMember().Add(item);
+                mathSet.innerMembers.Add(item);
             }
         }
 
         public static void SetDifference<T>(this MathGenericSet<T> mathSet, MathGenericSet<T> differenceMathSet) where T : SetMember
         {
-            var difference = mathSet.GetAllMember().Except(differenceMathSet.GetAllMember()).ToList();
-            mathSet.GetAllMember().Clear();
+            var difference = mathSet.innerMembers.Except(differenceMathSet.innerMembers).ToList();
+            mathSet.innerMembers.Clear();
             foreach (var item in difference)
             {
-                mathSet.GetAllMember().Add(item);
+                mathSet.innerMembers.Add(item);
             }
         }
-        public static bool ContainsSet<T>(this ArrayList list, MathGenericSet<T> mathSet)
+        public static bool ContainsSet<T>(this ArrayList list, MathGenericSet<T> mathSet) where T : SetMember
         {
             foreach (var item in list)
             {
@@ -58,19 +58,19 @@ namespace MathematicsFramework
         }
         //public static void SetSymmetricDifference<T>(this MathGenericSet<T> mathSet, MathGenericSet<T> symmetricDifferenceMathSet) where T : SetMember
         //{
-        //    var symmetricDifference = mathSet.GetAllMember().SymmetricExcept(symmetricDifferenceMathSet.GetAllMember()).ToList();
-        //    mathSet.GetAllMember().Clear();
+        //    var symmetricDifference = mathSet.innerMembers.SymmetricExcept(symmetricDifferenceMathSet.innerMembers).ToList();
+        //    mathSet.innerMembers.Clear();
         //    foreach (var item in symmetricDifference)
         //    {
-        //        mathSet.GetAllMember().Add(item);
+        //        mathSet.innerMembers.Add(item);
         //    }
         //}
         //public static bool IsSetMember<T>(this Set<T> set, Set<T> memberOfSet) where T : ISetMember
         //{
         //    T member = (T)set;
-        //    foreach (var item in set.GetAllMember())
+        //    foreach (var item in set.innerMembers)
         //    {
-        //        memberOfSet.GetAllMember().Contains(set);
+        //        memberOfSet.innerMembers.Contains(set);
         //    }
         //    return true;
         //}
