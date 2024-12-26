@@ -8,7 +8,6 @@
             return null;
         }
 
-
         public static MathGenericSet<SetMember> CreateSet<T>(T[] setMembers) where T : MathGenericSet<SetMember>
         {
             var result = CreateSet<T>(null);// CreateSet<T>();

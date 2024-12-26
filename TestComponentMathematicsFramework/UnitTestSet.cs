@@ -9,7 +9,6 @@ namespace TestComponentMathematicsFramework
     [TestClass]
     public class UnitTestSet
     {
-
         private class TestMathSet : MathGenericSet<SetMember> { }
         private class TestElement : SetElement<int> { }
         private class TestElement2 : SetElement<decimal> { }
@@ -44,6 +43,7 @@ namespace TestComponentMathematicsFramework
             _testMathSet.AddMember(testElement);
             Assert.AreEqual(i, _testMathSet.innerMembers.Count);
         }
+
         [TestMethod]
         public void PreventSelfReferential()
         {
@@ -51,6 +51,7 @@ namespace TestComponentMathematicsFramework
             Assert.ThrowsException<ArgumentException>(() => _testMathSet.AddMember(_testMathSet));
             Assert.AreEqual(i, _testMathSet.innerMembers.Count);
         }
+
         [TestMethod]
         public void TestSetElementIsTrue()
         {
@@ -90,6 +91,7 @@ namespace TestComponentMathematicsFramework
             //count = testSet2.innerMembers.Count;
             //Assert.AreEqual(count, 3);
         }
+
         [TestMethod]
         public void TestIsSetMember()
         {
@@ -101,6 +103,5 @@ namespace TestComponentMathematicsFramework
             //testSet2.SetUnion(testSet);
             //Assert.IsTrue(testSet2.ContainsMember(testElement));
         }
-
     }
 }
