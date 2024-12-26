@@ -39,10 +39,18 @@ namespace TestComponentMathematicsFramework
         public void IgnoreDuplicate()
         {
             var i = _testMathSet.innerMembers.Count;
-            Assert.ThrowsException<ArgumentException>(() => _testMathSet.AddMember(testElement));
+            _testMathSet.AddMember(testElement);
+            Assert.AreEqual(i, _testMathSet.innerMembers.Count);
+            _testMathSet.AddMember(testElement);
             Assert.AreEqual(i, _testMathSet.innerMembers.Count);
         }
-
+        [TestMethod]
+        public void PreventSelfReferential()
+        {
+            var i = _testMathSet.innerMembers.Count;
+            Assert.ThrowsException<ArgumentException>(() => _testMathSet.AddMember(_testMathSet));
+            Assert.AreEqual(i, _testMathSet.innerMembers.Count);
+        }
         [TestMethod]
         public void TestSetElementIsTrue()
         {

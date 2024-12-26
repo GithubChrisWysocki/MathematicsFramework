@@ -119,11 +119,12 @@ namespace MathematicsFramework
         }
         public void AddMember(T setMember)
         {
+            if (this == setMember)
+            {
+                throw new ArgumentException("Member already exists in set and would be selfreferntial.");
+            }
             if (!ContainsMember(setMember))
                 innerMembers.Add(setMember);
-            else
-                throw new ArgumentException("Member already exists in set and would be selfreferntial.");
         }
-
     }
 }
