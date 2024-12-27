@@ -4,7 +4,6 @@
     {
         public static MathGenericSet<SetMember> CreatePowerSet<T>(T[] setMembers) where T : MathGenericSet<SetMember>
         {
-           
             return null;
         }
 

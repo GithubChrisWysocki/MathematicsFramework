@@ -65,13 +65,14 @@ namespace TestComponentMathematicsFramework
         public void TestSetIsTrue()
         {
             Assert.IsTrue(_testMathSet[2].IsSet);
+            Assert.IsTrue(_testMathSet2.IsSet);
+            Assert.IsTrue(_testMathSet.IsSet);
         }
 
         [TestMethod]
         public void AddRandomObject()
         {
             _testMathSet2.AddMember(1);
-
             var h1 = new ArrayList();
             var h2 = new ArrayList();
             h1.Add("asdf");
