@@ -1,18 +1,21 @@
 ﻿using System.Collections;
 using System.Linq;
 
-namespace MathematicsFramework
+namespace MathematicsFramework.Settheory.Set
 {
     public static class SetOperations
     {
-        public static void SetUnion<T>(this MathGenericSet<T> mathSet, MathGenericSet<T> unionMathSet) where T:SetMember
+        public static void SetUnion<T>(this MathGenericSet<T> mathSet, MathGenericSet<T> unionMathSet)
+            where T : SetMember
         {
             mathSet.innerMembers.UnionWith(unionMathSet.innerMembers);
         }
-        public static void SetUnion(this MathGenericSet mathSet, MathGenericSet unionMathSet) 
+
+        public static void SetUnion(this MathGenericSet mathSet, MathGenericSet unionMathSet)
         {
             mathSet.innerMembers.UnionWith(unionMathSet);
         }
+
         private static void UnionWith(this ArrayList arrList, MathGenericSet set)
         {
             foreach (var item in set.innerMembers)
@@ -23,7 +26,9 @@ namespace MathematicsFramework
                 }
             }
         }
-        public static void SetIntersection<T>(this MathGenericSet<T> mathSet, MathGenericSet<T> intersectMathSet) where T : SetMember
+
+        public static void SetIntersection<T>(this MathGenericSet<T> mathSet, MathGenericSet<T> intersectMathSet)
+            where T : SetMember
         {
             var intersection = mathSet.innerMembers.Intersect(intersectMathSet.innerMembers).ToList();
             mathSet.innerMembers.Clear();
@@ -33,7 +38,8 @@ namespace MathematicsFramework
             }
         }
 
-        public static void SetDifference<T>(this MathGenericSet<T> mathSet, MathGenericSet<T> differenceMathSet) where T : SetMember
+        public static void SetDifference<T>(this MathGenericSet<T> mathSet, MathGenericSet<T> differenceMathSet)
+            where T : SetMember
         {
             var difference = mathSet.innerMembers.Except(differenceMathSet.innerMembers).ToList();
             mathSet.innerMembers.Clear();
@@ -42,7 +48,8 @@ namespace MathematicsFramework
                 mathSet.innerMembers.Add(item);
             }
         }
-        public static bool ContainsSet<T>(this ArrayList list, MathGenericSet<T> mathSet) where T : SetMember
+
+        public static bool ContainsSet<T>(this ArrayList list, MathGenericSet mathSet)// where T : SetMember
         {
             foreach (var item in list)
             {
@@ -50,9 +57,7 @@ namespace MathematicsFramework
                 {
                     return true;
                 }
-                
-                    return false;
-                
+                return false;
             }
             return true;
         }

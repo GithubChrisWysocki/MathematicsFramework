@@ -1,5 +1,7 @@
 ﻿using MathematicsFramework;
 using System;
+using MathematicsFramework.Settheory.Element;
+using MathematicsFramework.Settheory.Set;
 
 namespace TestConsoleMathematicsFramework
 {

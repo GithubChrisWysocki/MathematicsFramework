@@ -1,15 +1,13 @@
-﻿using KellermanSoftware.CompareNetObjects;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 
-namespace MathematicsFramework
+namespace MathematicsFramework.Settheory.Set
 {
     public abstract class MathGenericSet : SetMember
     {
         public IEqualityComparer Comparer { get; }
-        public ArrayList innerMembers { get; }
+        public virtual ArrayList innerMembers { get; }
 
         public MathGenericSet()
         {
@@ -39,33 +37,9 @@ namespace MathematicsFramework
                     return true;
             return false;
         }
-
-        public class DefaultComparer : IEqualityComparer
-        {
-            protected CompareLogic comparer { get; }
-
-            public DefaultComparer()
-            {
-                comparer = new CompareLogic();
-            }
-
-            public new bool Equals(object x, object y)
-            {
-                return comparer.Compare(x, y).AreEqual;
-            }
-
-            public int GetHashCode([DisallowNull] object obj)
-            {
-                if (obj == null)
-                    throw new ArgumentNullException(nameof(obj));
-
-                // Use the default hash code if available
-                return obj.GetHashCode();
-            }
-        }
     }
 
-    public abstract class MathGenericSet<T> : MathGenericSet where T : SetMember
+    public abstract class MathGenericSet<T> : SetMember where T : SetMember
     {
         public MathGenericSet()
         {
@@ -85,22 +59,7 @@ namespace MathematicsFramework
             }
         }
 
-        public class DefaultComparer<T> : DefaultComparer, IEqualityComparer<T>
-        {
-            public bool Equals(T? x, T? y)
-            {
-                return comparer.Compare(x, y).AreEqual;
-            }
-
-            public int GetHashCode([DisallowNull] T obj)
-            {
-                if (obj == null)
-                    throw new ArgumentNullException(nameof(obj));
-
-                // Use the default hash code if available
-                return obj.GetHashCode();
-            }
-        }
+    
 
         public T? this[int key]
         {
@@ -115,19 +74,31 @@ namespace MathematicsFramework
             }
         }
 
-        public new IEqualityComparer<T> Comparer { get; }
+        public IEqualityComparer<T> Comparer { get; }
 
         // Gehört in SetFactory?!
         //public static MathGenericSet<SetMember> CreateSet<T>() where T : MathGenericSet<SetMember>, new()
         //{
         //    return new T(); //(Set<SetMember>)Activator.CreateInstance(typeof(T));
         //}
-        public new SetCollection innerMembers { get; }
+        public  SetCollection innerMembers { get; }
 
-        public bool ContainsMember(T memberToCheck)
+        public bool ContainsMember(T memberToCheck, bool recursive = false)
         {
             //todo: das kann man parallelisieren
-            foreach (var item in innerMembers)
+            if (recursive)
+            {
+                foreach (var item in innerMembers)
+                {
+                    if (Comparer.Equals(item, memberToCheck)) // Prevent duplicates
+                        return true;
+                    if (item is MathGenericSet<T> set)
+                        if (set.ContainsMember(memberToCheck, true))
+                            return true;
+                }
+            }
+            else
+                foreach (var item in innerMembers)
                 if (Comparer.Equals(item, memberToCheck)) // Prevent duplicates
                     return true;
             return false;

@@ -1,7 +1,6 @@
 ﻿using System;
 
-
-namespace MathematicsFramework
+namespace MathematicsFramework.Settheory.Element
 {
     public abstract class SetElement<T> : SetElement where T : struct
     {

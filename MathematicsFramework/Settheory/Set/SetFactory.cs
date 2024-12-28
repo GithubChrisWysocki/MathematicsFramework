@@ -1,4 +1,4 @@
-﻿namespace MathematicsFramework
+﻿namespace MathematicsFramework.Settheory.Set
 {
     public static class SetFactory
     {
