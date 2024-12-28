@@ -64,6 +64,7 @@ namespace TestComponentMathematicsFramework
 
             Assert.IsTrue(setGenericAbstract[0].IsSet);
             Assert.IsTrue(setGenericAbstract[1].IsSet);
+            Assert.IsFalse(setGenericAbstract[1].IsSetElement);
         }
 
         [TestMethod]
@@ -74,6 +75,7 @@ namespace TestComponentMathematicsFramework
             setGenericElement.AddMember(new TestElement_Abstract() { Value = 2 });
             Assert.IsTrue(setGenericElement[0].IsSetElement);
             Assert.IsTrue(setGenericElement[1].IsSetElement);
+            Assert.IsFalse(setGenericElement[1].IsSet);
         }
 
         [TestMethod]

@@ -2,8 +2,7 @@
 
 namespace TestComponentMathematicsFramework.SanityCheck.SetupForTests;
 
-public class TestElement_Generic_decimal
-    : SetElement<decimal>
+public class TestElement_Generic_decimal : SetElement<decimal>
 {
     
 }

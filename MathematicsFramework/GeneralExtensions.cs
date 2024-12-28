@@ -8,4 +8,5 @@ public static class GeneralExtensions
     {
         return type.IsValueType && !type.IsPrimitive && !type.IsEnum;
     }
+    
 }
