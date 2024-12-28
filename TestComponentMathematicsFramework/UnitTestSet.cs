@@ -55,10 +55,10 @@ namespace TestComponentMathematicsFramework
         [TestMethod]
         public void TestSetElementIsTrue()
         {
-            Assert.IsTrue(_testMathSet[0].IsSetElement<int>());
-            Assert.IsTrue(_testMathSet[1].IsSetElement<decimal>());
-            Assert.IsTrue(_testMathSet[0].IsSetElement());
-            Assert.IsTrue(_testMathSet[1].IsSetElement());
+            Assert.IsTrue(_testMathSet[0].IsSetElement);
+            Assert.IsTrue(_testMathSet[1].IsSetElement);
+            Assert.IsTrue(_testMathSet[0].IsSetElement);
+            Assert.IsTrue(_testMathSet[1].IsSetElement);
         }
 
         [TestMethod]

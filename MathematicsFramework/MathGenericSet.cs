@@ -8,18 +8,21 @@ namespace MathematicsFramework
 {
     public abstract class MathGenericSet : SetMember
     {
-        public IEqualityComparer Comparer { get; set; }
-        public virtual ArrayList innerMembers { get; set; }
+        public IEqualityComparer Comparer { get; }
+        public ArrayList innerMembers { get; }
+
         public MathGenericSet()
         {
             Comparer = new DefaultComparer();
             innerMembers = new ArrayList();
         }
+
         public MathGenericSet(IEqualityComparer comparer)
         {
             Comparer = comparer;
             innerMembers = new ArrayList();
         }
+
         public void AddMember(object setMember)
         {
             if (this == setMember)
@@ -28,22 +31,26 @@ namespace MathematicsFramework
             if (!ContainsMember(setMember))
                 innerMembers.Add(setMember);
         }
-        public virtual bool ContainsMember(object memberToCheck)
+
+        public bool ContainsMember(object memberToCheck)
         {
             foreach (var item in innerMembers)
-            {
                 if (Comparer.Equals(item, memberToCheck)) // Prevent duplicates
-                {
                     return true;
-                }
-            }
             return false;
         }
+
         public class DefaultComparer : IEqualityComparer
         {
+            protected CompareLogic comparer { get; }
+
+            public DefaultComparer()
+            {
+                comparer = new CompareLogic();
+            }
+
             public new bool Equals(object x, object y)
             {
-                CompareLogic comparer = new CompareLogic();
                 return comparer.Compare(x, y).AreEqual;
             }
 
@@ -57,6 +64,7 @@ namespace MathematicsFramework
             }
         }
     }
+
     public abstract class MathGenericSet<T> : MathGenericSet where T : SetMember
     {
         public MathGenericSet()
@@ -64,6 +72,7 @@ namespace MathematicsFramework
             Comparer = new DefaultComparer<T>();
             innerMembers = new SetCollection(Comparer);
         }
+
         public MathGenericSet(IEqualityComparer<T> comparer)
         {
             innerMembers = new SetCollection(comparer);
@@ -71,13 +80,15 @@ namespace MathematicsFramework
 
         public class SetCollection : HashSet<T>
         {
-            public SetCollection(IEqualityComparer<T> comparer) : base(comparer) { }
+            public SetCollection(IEqualityComparer<T> comparer) : base(comparer)
+            {
+            }
         }
-        public class DefaultComparer<T> : IEqualityComparer<T>
+
+        public class DefaultComparer<T> : DefaultComparer, IEqualityComparer<T>
         {
             public bool Equals(T? x, T? y)
             {
-                CompareLogic comparer = new CompareLogic();
                 return comparer.Compare(x, y).AreEqual;
             }
 
@@ -103,32 +114,30 @@ namespace MathematicsFramework
                 return default;
             }
         }
-        public new IEqualityComparer<T> Comparer { get; set; }
+
+        public new IEqualityComparer<T> Comparer { get; }
 
         // Gehört in SetFactory?!
         //public static MathGenericSet<SetMember> CreateSet<T>() where T : MathGenericSet<SetMember>, new()
         //{
         //    return new T(); //(Set<SetMember>)Activator.CreateInstance(typeof(T));
         //}
-        public new SetCollection innerMembers { get; set; }
+        public new SetCollection innerMembers { get; }
 
         public bool ContainsMember(T memberToCheck)
         {
             //todo: das kann man parallelisieren
             foreach (var item in innerMembers)
-            {
                 if (Comparer.Equals(item, memberToCheck)) // Prevent duplicates
-                {
                     return true;
-                }
-            }
             return false;
         }
+
         public void AddMember(T setMember)
         {
             if (this == setMember)
                 throw new ArgumentException("Member already exists in set and would be selfreferntial.");
-            
+
             if (!ContainsMember(setMember))
                 innerMembers.Add(setMember);
         }
