@@ -8,18 +8,18 @@ namespace TestComponentMathematicsFramework
     [TestClass]
     public class UnitTestSet
     {
-        private TestSet_Abstract _setAbstract;
-        private TestSet1_Generic_Abstract _setGenericAbstract;
-        private TestSet_Generic_Element _setGenericElement;
+        private TestSet_Abstract _setNonGeneric;
+        private TestSet1Abstract _setAbstract;
+        private TestSetElement _setElement;
         private TestElement_Abstract _elementAbstract;
         private TestElement_Generic_decimal _elementGenericDecimal;
 
         [TestInitialize]
         public void Setup()
         {
-            _setAbstract = new TestSet_Abstract();
-            _setGenericAbstract = new TestSet1_Generic_Abstract();
-            _setGenericElement = new TestSet_Generic_Element();
+            _setNonGeneric = new TestSet_Abstract();
+            _setAbstract = new TestSet1Abstract();
+            _setElement = new TestSetElement();
             _elementAbstract = new TestElement_Abstract();
             _elementGenericDecimal = new TestElement_Generic_decimal();
         }
@@ -27,40 +27,40 @@ namespace TestComponentMathematicsFramework
         [TestMethod]
         public void IgnoreDuplicate()
         {
-            _setAbstract.AddMember(_setGenericElement);
-            var elementCount = _setAbstract.innerMembers.Count;
-            _setAbstract.AddMember(_setGenericElement);
-            Assert.AreEqual(elementCount, _setAbstract.innerMembers.Count);
+            _setNonGeneric.AddMember(_setElement);
+            var elementCount = _setNonGeneric.innerMembers.Count;
+            _setNonGeneric.AddMember(_setElement);
+            Assert.AreEqual(elementCount, _setNonGeneric.innerMembers.Count);
         }
 
         [TestMethod]
         public void TestCanOnlyAddElementRestrictedByGeneric()
         {
-            _setGenericElement.AddMember(new TestElement_Abstract());
+            _setElement.AddMember(new TestElement_Abstract());
         }
 
         [TestMethod]
-        public void TestAddElementOrSetIncreaseCountByOne()
+        public void TestAddMemberOrSetIncreaseCountByOne()
         {
-            var countbeforeAdd = _setAbstract.innerMembers.Count;
-            _setAbstract.AddMember(new object());
-            Assert.AreEqual(countbeforeAdd + 1, _setAbstract.innerMembers.Count);
+            var countbeforeAdd = _setNonGeneric.innerMembers.Count;
+            _setNonGeneric.AddMember(new object());
+            Assert.AreEqual(countbeforeAdd + 1, _setNonGeneric.innerMembers.Count);
         }
 
         [TestMethod]
         public void TestPreventSelfReferential()
         {
-            var i = _setGenericAbstract.innerMembers.Count;
-            Assert.ThrowsException<ArgumentException>(() => _setGenericAbstract.AddMember(_setGenericAbstract));
-            Assert.AreEqual(i, _setGenericAbstract.innerMembers.Count);
+            var i = _setAbstract.innerMembers.Count;
+            Assert.ThrowsException<ArgumentException>(() => _setAbstract.AddMember(_setAbstract));
+            Assert.AreEqual(i, _setAbstract.innerMembers.Count);
         }
 
         [TestMethod]
         public void TestIsSetTrue()
         {
-            var setGenericAbstract = new TestSet1_Generic_Abstract();
-            setGenericAbstract.AddMember(_setAbstract);
-            setGenericAbstract.AddMember(_setGenericElement);
+            var setGenericAbstract = new TestSet1Abstract();
+            setGenericAbstract.AddMember(_setNonGeneric);
+            setGenericAbstract.AddMember(_setElement);
 
             Assert.IsTrue(setGenericAbstract[0].IsSet);
             Assert.IsTrue(setGenericAbstract[1].IsSet);
@@ -70,21 +70,23 @@ namespace TestComponentMathematicsFramework
         [TestMethod]
         public void TestSetElementIsTrue()
         {
-            var setGenericElement = new TestSet_Generic_Element();
+            var setGenericElement = new TestSetElement();
             setGenericElement.AddMember(new TestElement_Abstract() { Value = 1 });
             setGenericElement.AddMember(new TestElement_Abstract() { Value = 2 });
+            
             Assert.IsTrue(setGenericElement[0].IsSetElement);
             Assert.IsTrue(setGenericElement[1].IsSetElement);
             Assert.IsFalse(setGenericElement[1].IsSet);
         }
 
         [TestMethod]
-        public void TestCanAddRandomObject()
+        public void TestCanAddRandomObjectToNongenericSet()
         {
-            _setAbstract.AddMember(1);
+            _setNonGeneric.AddMember(1);
             var h2 = new ArrayList();
-            _setAbstract.AddMember("asdf");
-            _setAbstract.AddMember(h2.Add(1));
+            _setNonGeneric.AddMember("asdf");
+            _setNonGeneric.AddMember(h2.Add(1));
+            _setNonGeneric.AddMember(_elementGenericDecimal);
         }
 
         [TestMethod]
@@ -109,6 +111,14 @@ namespace TestComponentMathematicsFramework
             //Assert.IsTrue(false);
             //testSet2.SetUnion(testSet);
             //Assert.IsTrue(testSet2.ContainsMember(testElement));
+        }
+
+        [TestMethod]
+        public void TestContainsMemeber()
+        {
+            _setElement.AddMember(_elementAbstract);
+           Assert.IsTrue( _setElement.ContainsMember(_elementAbstract));
+           Assert.IsFalse(_setElement.ContainsMember( new TestElement_Abstract(){Value = 122}));
         }
     }
 }

@@ -3,7 +3,7 @@ using MathematicsFramework.Settheory.Set;
 
 namespace TestComponentMathematicsFramework.SanityCheck.SetupForTests;
 
-public class TestSet_Generic_Element : MathGenericSet<TestElement_Abstract>
+public class TestSetElement : MathSet<TestElement_Abstract>
 {
     
 }

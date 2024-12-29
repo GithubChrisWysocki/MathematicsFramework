@@ -5,18 +5,18 @@ namespace MathematicsFramework.Settheory.Set
 {
     public static class SetOperations
     {
-        public static void SetUnion<T>(this MathGenericSet<T> mathSet, MathGenericSet<T> unionMathSet)
+        public static void SetUnion<T>(this MathSet<T> mathSet, MathSet<T> unionMathSet)
             where T : SetMember
         {
             mathSet.innerMembers.UnionWith(unionMathSet.innerMembers);
         }
 
-        public static void SetUnion(this MathGenericSet mathSet, MathGenericSet unionMathSet)
+        public static void SetUnion(this MathSet mathSet, MathSet unionMathSet)
         {
             mathSet.innerMembers.UnionWith(unionMathSet);
         }
 
-        private static void UnionWith(this ArrayList arrList, MathGenericSet set)
+        private static void UnionWith(this ArrayList arrList, MathSet set)
         {
             foreach (var item in set.innerMembers)
             {
@@ -27,7 +27,7 @@ namespace MathematicsFramework.Settheory.Set
             }
         }
 
-        public static void SetIntersection<T>(this MathGenericSet<T> mathSet, MathGenericSet<T> intersectMathSet)
+        public static void SetIntersection<T>(this MathSet<T> mathSet, MathSet<T> intersectMathSet)
             where T : SetMember
         {
             var intersection = mathSet.innerMembers.Intersect(intersectMathSet.innerMembers).ToList();
@@ -38,7 +38,7 @@ namespace MathematicsFramework.Settheory.Set
             }
         }
 
-        public static void SetDifference<T>(this MathGenericSet<T> mathSet, MathGenericSet<T> differenceMathSet)
+        public static void SetDifference<T>(this MathSet<T> mathSet, MathSet<T> differenceMathSet)
             where T : SetMember
         {
             var difference = mathSet.innerMembers.Except(differenceMathSet.innerMembers).ToList();
@@ -49,7 +49,7 @@ namespace MathematicsFramework.Settheory.Set
             }
         }
 
-        public static bool ContainsSet<T>(this ArrayList list, MathGenericSet mathSet)// where T : SetMember
+        public static bool ContainsSet<T>(this ArrayList list, MathSet mathSet)// where T : SetMember
         {
             foreach (var item in list)
             {

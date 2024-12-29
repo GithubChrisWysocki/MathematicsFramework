@@ -4,18 +4,30 @@ using System.Collections.Generic;
 
 namespace MathematicsFramework.Settheory.Set
 {
-    public abstract class MathGenericSet : SetMember
+    public abstract class MathSet : SetMember
     {
-        public IEqualityComparer Comparer { get; }
-        public virtual ArrayList innerMembers { get; }
+        public object? this[int key]
+        {
+            get
+            {
+                int i = 0;
+                foreach (var item in innerMembers)
+                    if (key == i++)
+                        return item;
 
-        public MathGenericSet()
+                return default;
+            }
+        }
+        public IEqualityComparer Comparer { get; }
+        public ArrayList innerMembers { get; }
+
+        public MathSet()
         {
             Comparer = new DefaultComparer();
             innerMembers = new ArrayList();
         }
 
-        public MathGenericSet(IEqualityComparer comparer)
+        public MathSet(IEqualityComparer comparer)
         {
             Comparer = comparer;
             innerMembers = new ArrayList();
@@ -39,15 +51,15 @@ namespace MathematicsFramework.Settheory.Set
         }
     }
 
-    public abstract class MathGenericSet<T> : SetMember where T : SetMember
+    public abstract class MathSet<T> : SetMember where T : SetMember
     {
-        public MathGenericSet()
+        public MathSet()
         {
             Comparer = new DefaultComparer<T>();
             innerMembers = new SetCollection(Comparer);
         }
 
-        public MathGenericSet(IEqualityComparer<T> comparer)
+        public MathSet(IEqualityComparer<T> comparer)
         {
             innerMembers = new SetCollection(comparer);
         }
@@ -58,8 +70,6 @@ namespace MathematicsFramework.Settheory.Set
             {
             }
         }
-
-    
 
         public T? this[int key]
         {
@@ -81,7 +91,7 @@ namespace MathematicsFramework.Settheory.Set
         //{
         //    return new T(); //(Set<SetMember>)Activator.CreateInstance(typeof(T));
         //}
-        public  SetCollection innerMembers { get; }
+        public SetCollection innerMembers { get; }
 
         public bool ContainsMember(T memberToCheck, bool recursive = false)
         {
@@ -92,15 +102,16 @@ namespace MathematicsFramework.Settheory.Set
                 {
                     if (Comparer.Equals(item, memberToCheck)) // Prevent duplicates
                         return true;
-                    if (item is MathGenericSet<T> set)
+                    if (item is MathSet<T> set)
                         if (set.ContainsMember(memberToCheck, true))
                             return true;
                 }
             }
             else
                 foreach (var item in innerMembers)
-                if (Comparer.Equals(item, memberToCheck)) // Prevent duplicates
-                    return true;
+                    if (Comparer.Equals(item, memberToCheck)) // Prevent duplicates
+                        return true;
+
             return false;
         }
 
