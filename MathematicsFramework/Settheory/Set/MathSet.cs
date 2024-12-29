@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using MathematicsFramework.Settheory.ElementSet;
 
 namespace MathematicsFramework.Settheory.Set
 {

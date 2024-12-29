@@ -1,4 +1,6 @@
-﻿namespace MathematicsFramework.Settheory.Set
+﻿using MathematicsFramework.Settheory.ElementSet;
+
+namespace MathematicsFramework.Settheory.Set
 {
     public static class SetFactory
     {

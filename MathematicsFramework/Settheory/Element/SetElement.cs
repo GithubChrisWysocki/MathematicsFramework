@@ -1,4 +1,5 @@
 ﻿using System;
+using MathematicsFramework.Settheory.ElementSet;
 
 namespace MathematicsFramework.Settheory.Element
 {

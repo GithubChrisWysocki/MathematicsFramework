@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Linq;
+using MathematicsFramework.Settheory.ElementSet;
 
 namespace MathematicsFramework.Settheory.Set
 {

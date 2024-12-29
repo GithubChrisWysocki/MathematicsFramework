@@ -1,26 +1,24 @@
 ﻿using System;
 using MathematicsFramework.Settheory.Element;
-using MathematicsFramework.Settheory.Set;
 
-namespace MathematicsFramework.Settheory
+namespace MathematicsFramework.Settheory.ElementSet
 {
-    public abstract class SetMember//: ISetMember{
+    public abstract partial class SetMember//: ISetMember{
     {
         //public bool IsSetElement<T>() where T:struct
         //    => GetType().IsSubclassOf(typeof(SetElement<T>));
 
-        public bool IsSetElement => GetType().IsSubclassOf(typeof(SetElement));
+        public bool IsSetElement => GetType().IsSubclassOf(typeof(SetElement))|| InheritsFromMathGenericElement(this);
         
        // public bool IsSet<T>() where T:SetMember => GetType().IsSubclassOf(typeof(MathGenericSet<T>)) || GetType().IsSubclassOf(typeof(MathGenericSet));
         
-        public bool IsSet => GetType().IsSubclassOf(typeof(MathSet))|| InheritsFromMathGenericSet(this);
-        
-        static bool InheritsFromMathGenericSet(object obj)
+
+        static bool InheritsFromMathGenericElement(object obj)
         {
             if (obj == null) return false;
 
             Type type = obj.GetType();
-            Type genericBaseType = typeof(MathSet<>);
+            Type genericBaseType = typeof(SetElement<>);
 
             while (type != null && type != typeof(object))
             {
