@@ -86,11 +86,7 @@ namespace MathematicsFramework.Settheory.Set
 
         public IEqualityComparer<T> Comparer { get; }
 
-        // Gehört in SetFactory?!
-        //public static MathGenericSet<SetMember> CreateSet<T>() where T : MathGenericSet<SetMember>, new()
-        //{
-        //    return new T(); //(Set<SetMember>)Activator.CreateInstance(typeof(T));
-        //}
+
         public SetCollection innerMembers { get; }
 
         public bool ContainsMember(T memberToCheck, bool recursive = false)
@@ -122,6 +118,12 @@ namespace MathematicsFramework.Settheory.Set
 
             if (!ContainsMember(setMember))
                 innerMembers.Add(setMember);
+        }
+
+        public void RemoveMember(T setMember)
+        {
+            if (ContainsMember(setMember))
+                innerMembers.Remove(setMember);
         }
     }
 }

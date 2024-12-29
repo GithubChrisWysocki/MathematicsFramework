@@ -2,9 +2,20 @@
 
 namespace MathematicsFramework.Settheory.Element
 {
-    public abstract class SetElement<T> : SetElement where T : struct
+    public abstract class SetElement<T> : SetElement
     {
-        public new T Value { get; set; }
+        private T _value;
+        public new T Value
+        {
+            get { return _value; }
+            set
+            {
+                if (value.GetType().IsValueType)
+                    _value = value;
+                else
+                    throw new ArgumentException("Value must be a ValueType.");
+            }
+        }
     }
 
     public abstract class SetElement : SetMember
@@ -15,10 +26,10 @@ namespace MathematicsFramework.Settheory.Element
             get { return _value; }
             set
             {
-                if (value.GetType().IsStruct())
+                if (value.GetType().IsValueType)
                     _value = value;
                 else
-                    throw new ArgumentException("Value must be a struct.");
+                    throw new ArgumentException("Value must be ValueType.");
             }
         }
     }

@@ -10,7 +10,7 @@ namespace TestComponentMathematicsFramework
     {
         private TestSet_Abstract _setNonGeneric;
         private TestSet1Abstract _setAbstract;
-        private TestSetElement _setElement;
+        private TestSetOnlyElement _setOnlyElement;
         private TestElement_Abstract _elementAbstract;
         private TestElement_Generic_decimal _elementGenericDecimal;
 
@@ -19,7 +19,7 @@ namespace TestComponentMathematicsFramework
         {
             _setNonGeneric = new TestSet_Abstract();
             _setAbstract = new TestSet1Abstract();
-            _setElement = new TestSetElement();
+            _setOnlyElement = new TestSetOnlyElement();
             _elementAbstract = new TestElement_Abstract();
             _elementGenericDecimal = new TestElement_Generic_decimal();
         }
@@ -27,16 +27,17 @@ namespace TestComponentMathematicsFramework
         [TestMethod]
         public void IgnoreDuplicate()
         {
-            _setNonGeneric.AddMember(_setElement);
+            _setNonGeneric.AddMember(_setOnlyElement);
             var elementCount = _setNonGeneric.innerMembers.Count;
-            _setNonGeneric.AddMember(_setElement);
+            _setNonGeneric.AddMember(_setOnlyElement);
             Assert.AreEqual(elementCount, _setNonGeneric.innerMembers.Count);
         }
 
         [TestMethod]
         public void TestCanOnlyAddElementRestrictedByGeneric()
         {
-            _setElement.AddMember(new TestElement_Abstract());
+            _setOnlyElement.AddMember(new TestElement_Abstract(){Value = new decimal()});
+            Assert.ThrowsException<ArgumentException>(() => _setOnlyElement.AddMember(new TestElement_Abstract(){Value = new object()}));
         }
 
         [TestMethod]
@@ -60,7 +61,7 @@ namespace TestComponentMathematicsFramework
         {
             var setGenericAbstract = new TestSet1Abstract();
             setGenericAbstract.AddMember(_setNonGeneric);
-            setGenericAbstract.AddMember(_setElement);
+            setGenericAbstract.AddMember(_setOnlyElement);
 
             Assert.IsTrue(setGenericAbstract[0].IsSet);
             Assert.IsTrue(setGenericAbstract[1].IsSet);
@@ -70,7 +71,7 @@ namespace TestComponentMathematicsFramework
         [TestMethod]
         public void TestSetElementIsTrue()
         {
-            var setGenericElement = new TestSetElement();
+            var setGenericElement = new TestSetOnlyElement();
             setGenericElement.AddMember(new TestElement_Abstract() { Value = 1 });
             setGenericElement.AddMember(new TestElement_Abstract() { Value = 2 });
             
@@ -116,9 +117,9 @@ namespace TestComponentMathematicsFramework
         [TestMethod]
         public void TestContainsMemeber()
         {
-            _setElement.AddMember(_elementAbstract);
-           Assert.IsTrue( _setElement.ContainsMember(_elementAbstract));
-           Assert.IsFalse(_setElement.ContainsMember( new TestElement_Abstract(){Value = 122}));
+            _setOnlyElement.AddMember(_elementAbstract);
+           Assert.IsTrue(_setOnlyElement.ContainsMember(_elementAbstract));
+           Assert.IsFalse(_setOnlyElement.ContainsMember( new TestElement_Abstract(){Value = 122}));
         }
     }
 }

@@ -2,7 +2,7 @@
 
 namespace TestComponentMathematicsFramework.SanityCheck.SetupForTests;
 
-public class TestElement_Abstract    : SetElement<decimal>
+public class TestElement_Abstract    : SetElement
 {
     
 }
