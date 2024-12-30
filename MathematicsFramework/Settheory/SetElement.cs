@@ -1,6 +1,5 @@
 ﻿using System;
 
-
 namespace MathematicsFramework.Settheory
 {
     public abstract class SetElement<T> : SetElement
