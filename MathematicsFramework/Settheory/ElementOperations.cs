@@ -1,4 +1,4 @@
-﻿namespace MathematicsFramework.Settheory.Element
+﻿namespace MathematicsFramework.Settheory
 {
     class ElementOperations
     {

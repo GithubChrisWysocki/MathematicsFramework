@@ -1,7 +1,7 @@
 ﻿using System;
-using MathematicsFramework.Settheory.Element;
 
-namespace MathematicsFramework.Settheory.ElementSet
+
+namespace MathematicsFramework.Settheory
 {
     public abstract partial class SetMember//: ISetMember{
     {
@@ -12,6 +12,27 @@ namespace MathematicsFramework.Settheory.ElementSet
         
        // public bool IsSet<T>() where T:SetMember => GetType().IsSubclassOf(typeof(MathGenericSet<T>)) || GetType().IsSubclassOf(typeof(MathGenericSet));
         
+        
+       public bool IsSet => GetType().IsSubclassOf(typeof(MathSet))|| InheritsFromMathGenericSet(this);
+
+        
+       static bool InheritsFromMathGenericSet(object obj)
+       {
+           if (obj == null) return false;
+
+           Type type = obj.GetType();
+           Type genericBaseType = typeof(MathSet<>);
+
+           while (type != null && type != typeof(object))
+           {
+               if (type.IsGenericType && type.GetGenericTypeDefinition() == genericBaseType)
+               {
+                   return true;
+               }
+               type = type.BaseType;
+           }
+           return false;
+       }
 
         static bool InheritsFromMathGenericElement(object obj)
         {

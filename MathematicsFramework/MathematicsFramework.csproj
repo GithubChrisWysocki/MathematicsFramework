@@ -9,4 +9,9 @@
     <PackageReference Include="CompareNETObjects" Version="4.83.0" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <ProjectReference Include="..\MathematicsFrameworkInterfaces\MathematicsFrameworkInterfaces.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -1,10 +1,10 @@
-﻿using MathematicsFramework.Settheory.ElementSet;
+﻿
 
-namespace MathematicsFramework.Settheory.Set
+namespace MathematicsFramework.Settheory
 {
     public static class SetFactory
     {
-        public static MathSet<T> CreatePowerSet<T>(T[] setMembers, int? cardinality = null) where T:SetMember
+        public static MathSet CreatePowerSet<T>(T[] setMembers, int? cardinality = null) //where T:SetMember
         {
             if (cardinality==null)
             {
@@ -21,10 +21,10 @@ namespace MathematicsFramework.Settheory.Set
             return null;
         }
 
-        public static T CreateSet<T>() where T : MathSet<SetMember>, new()
-        {
-            return new T(); //(Set<SetMember>)Activator.CreateInstance(typeof(T));
-        }
+      //  public static T CreateSet<T>() where T : MathSet<>, new()
+      //  {
+      //      return new T(); //(Set<SetMember>)Activator.CreateInstance(typeof(T));
+      //  }
 
         public static T CreateSet<T>(params object[] setMembers) where T : MathSet, new()
         {

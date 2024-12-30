@@ -1,14 +1,14 @@
 ﻿using System;
-using MathematicsFramework.Settheory.ElementSet;
 
-namespace MathematicsFramework.Settheory.Element
+
+namespace MathematicsFramework.Settheory
 {
     public abstract class SetElement<T> : SetElement
     {
         private T _value;
         public new T Value
         {
-            get { return _value; }
+            get => _value; 
             set
             {
                 if (value.GetType().IsValueType)
@@ -24,7 +24,7 @@ namespace MathematicsFramework.Settheory.Element
         private object _value;
         public object Value
         {
-            get { return _value; }
+            get => _value; 
             set
             {
                 if (value.GetType().IsValueType)

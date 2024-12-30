@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using MathematicsFramework.Settheory.ElementSet;
+using System.Drawing.Imaging;
+using Base;
 
-namespace MathematicsFramework.Settheory.Set
+
+namespace MathematicsFramework.Settheory
 {
-    public abstract class MathSet : SetMember
+    public abstract class MathSet : SetMember,IMathSetNonGeneric
     {
         public object? this[int key]
         {
@@ -19,6 +21,7 @@ namespace MathematicsFramework.Settheory.Set
                 return default;
             }
         }
+
         public IEqualityComparer Comparer { get; }
         public ArrayList innerMembers { get; }
 
@@ -39,38 +42,57 @@ namespace MathematicsFramework.Settheory.Set
             if (this == setMember)
                 throw new ArgumentException("Member already exists in set and would be selfreferntial.");
 
-            if (!ContainsMember(setMember))
+            if (!ContainsMember(setMember).contains)
                 innerMembers.Add(setMember);
         }
 
-        public bool ContainsMember(object memberToCheck)
+        public void RemoveMember(object setMember)
         {
-            foreach (var item in innerMembers)
-                if (Comparer.Equals(item, memberToCheck)) // Prevent duplicates
-                    return true;
-            return false;
+            (bool contains, object innerMember) = ContainsMember(setMember);
+            if (contains)
+                innerMembers.Remove(innerMember);
+        }
+
+        public (bool contains, object? innerMember) ContainsMember(object memberToCheck, bool recursive = false)
+        {
+            //todo: das kann man parallelisieren
+            if (recursive)
+            {
+                foreach (var item in innerMembers)
+                {
+                    if (Comparer.Equals(item, memberToCheck)) // Prevent duplicates
+                        return (true, item);
+                    if (item is MathSet set)
+                    {
+                        (bool contains, object innerMember) = set.ContainsMember(memberToCheck, true);
+                        if (contains)
+                            return (true, innerMember);
+                    }
+                }
+            }
+            else
+                foreach (var item in innerMembers)
+                    if (Comparer.Equals(item, memberToCheck)) // Prevent duplicates
+                        return (true,item);
+
+            return (false,null);
         }
     }
 
-    public abstract class MathSet<T> : SetMember where T : SetMember
+    public abstract class MathSet<T> : SetMember, IMathSetGeneric<T> where T : SetMember
     {
         public MathSet()
         {
             Comparer = new DefaultComparer<T>();
-            innerMembers = new SetCollection(Comparer);
+            innerMembers = new SetCollection<T>(Comparer);
         }
 
         public MathSet(IEqualityComparer<T> comparer)
         {
-            innerMembers = new SetCollection(comparer);
+            innerMembers = new SetCollection<T>(comparer);
         }
 
-        public class SetCollection : HashSet<T>
-        {
-            public SetCollection(IEqualityComparer<T> comparer) : base(comparer)
-            {
-            }
-        }
+
 
         public T? this[int key]
         {
@@ -87,10 +109,9 @@ namespace MathematicsFramework.Settheory.Set
 
         public IEqualityComparer<T> Comparer { get; }
 
+        public SetCollection<T> innerMembers { get; }
 
-        public SetCollection innerMembers { get; }
-
-        public bool ContainsMember(T memberToCheck, bool recursive = false)
+        public (bool contains, T? innerMember) ContainsMember(T memberToCheck, bool recursive = false)
         {
             //todo: das kann man parallelisieren
             if (recursive)
@@ -98,18 +119,21 @@ namespace MathematicsFramework.Settheory.Set
                 foreach (var item in innerMembers)
                 {
                     if (Comparer.Equals(item, memberToCheck)) // Prevent duplicates
-                        return true;
+                        return (true, item);
                     if (item is MathSet<T> set)
-                        if (set.ContainsMember(memberToCheck, true))
-                            return true;
+                    {
+                        (bool contains, T innerMember) = set.ContainsMember(memberToCheck, true);
+                        if (contains)
+                            return (true, innerMember);
+                    }
                 }
             }
             else
                 foreach (var item in innerMembers)
                     if (Comparer.Equals(item, memberToCheck)) // Prevent duplicates
-                        return true;
+                        return (true,item);
 
-            return false;
+            return (false,null);
         }
 
         public void AddMember(T setMember)
@@ -117,14 +141,15 @@ namespace MathematicsFramework.Settheory.Set
             if (this == setMember)
                 throw new ArgumentException("Member already exists in set and would be selfreferntial.");
 
-            if (!ContainsMember(setMember))
+            if (!ContainsMember(setMember).contains)
                 innerMembers.Add(setMember);
         }
 
         public void RemoveMember(T setMember)
         {
-            if (ContainsMember(setMember))
-                innerMembers.Remove(setMember);
+            (bool contains, T innerMember) = ContainsMember(setMember);
+            if (contains)
+                innerMembers.Remove(innerMember);
         }
     }
 }

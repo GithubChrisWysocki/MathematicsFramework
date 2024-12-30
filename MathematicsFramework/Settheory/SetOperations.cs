@@ -1,12 +1,11 @@
 ﻿using System.Collections;
 using System.Linq;
-using MathematicsFramework.Settheory.ElementSet;
 
-namespace MathematicsFramework.Settheory.Set
+namespace MathematicsFramework.Settheory
 {
     public static class SetOperations
     {
-        public static void SetUnion<T>(this MathSet<T> mathSet, MathSet<T> unionMathSet)
+        public static void SetUnion<T>(this IMathSetGeneric<T> mathSet, IMathSetGeneric<T> unionMathSet)
             where T : SetMember
         {
             mathSet.innerMembers.UnionWith(unionMathSet.innerMembers);
@@ -21,14 +20,14 @@ namespace MathematicsFramework.Settheory.Set
         {
             foreach (var item in set.innerMembers)
             {
-                if (!set.ContainsMember(item)) // Prevent duplicates
+                if (!set.ContainsMember(item).contains) // Prevent duplicates
                 {
                     arrList.Add(item);
                 }
             }
         }
 
-        public static void SetIntersection<T>(this MathSet<T> mathSet, MathSet<T> intersectMathSet)
+        public static void SetIntersection<T>(this IMathSetGeneric<T> mathSet, IMathSetGeneric<T> intersectMathSet)
             where T : SetMember
         {
             var intersection = mathSet.innerMembers.Intersect(intersectMathSet.innerMembers).ToList();
@@ -39,7 +38,7 @@ namespace MathematicsFramework.Settheory.Set
             }
         }
 
-        public static void SetDifference<T>(this MathSet<T> mathSet, MathSet<T> differenceMathSet)
+        public static void SetDifference<T>(this IMathSetGeneric<T> mathSet, IMathSetGeneric<T> differenceMathSet)
             where T : SetMember
         {
             var difference = mathSet.innerMembers.Except(differenceMathSet.innerMembers).ToList();
@@ -54,7 +53,7 @@ namespace MathematicsFramework.Settheory.Set
         {
             foreach (var item in list)
             {
-                if (mathSet.ContainsMember(item))
+                if (mathSet.ContainsMember(item).contains)
                 {
                     return true;
                 }

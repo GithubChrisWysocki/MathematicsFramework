@@ -1,4 +1,4 @@
-﻿using MathematicsFramework.Settheory.Element;
+﻿using MathematicsFramework.Settheory;
 
 namespace TestComponentMathematicsFramework.SanityCheck.SetupForTests;
 

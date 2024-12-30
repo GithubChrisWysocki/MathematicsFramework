@@ -118,8 +118,8 @@ namespace TestComponentMathematicsFramework
         public void TestContainsMemeber()
         {
             _setOnlyElement.AddMember(_elementAbstract);
-           Assert.IsTrue(_setOnlyElement.ContainsMember(_elementAbstract));
-           Assert.IsFalse(_setOnlyElement.ContainsMember( new TestElement_Abstract(){Value = 122}));
+           Assert.IsTrue(_setOnlyElement.ContainsMember(_elementAbstract).contains);
+           Assert.IsFalse(_setOnlyElement.ContainsMember( new TestElement_Abstract(){Value = 122}).contains);
         }
     }
 }

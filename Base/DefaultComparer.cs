@@ -1,7 +1,5 @@
 ﻿using KellermanSoftware.CompareNetObjects;
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
 namespace MathematicsFramework.Settheory
@@ -20,7 +18,7 @@ namespace MathematicsFramework.Settheory
             return comparer.Compare(x, y).AreEqual;
         }
 
-        public int GetHashCode([DisallowNull] object obj)
+        public int GetHashCode(object obj)
         {
             if (obj == null)
                 throw new ArgumentNullException(nameof(obj));
