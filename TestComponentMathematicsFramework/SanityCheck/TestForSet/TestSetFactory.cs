@@ -16,5 +16,9 @@ public class TestSetFactory
         var testset3 = SetFactory.CreateSet<TestSet_Abstract>(null);
         Assert.IsInstanceOfType<TestSet_Abstract>(testset3);
         Assert.AreEqual(testset3.innerMembers.Count,0);
+
+        var testSet4 = SetFactory.CreateSet<TestSetWithElementDecimal,TestElement_Generic_decimal>(null);
+        Assert.IsInstanceOfType<TestSetWithElementDecimal>(testSet4);
+        Assert.AreEqual(testSet4.innerMembers.Count,0);
     }
 }

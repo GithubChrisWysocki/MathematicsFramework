@@ -4,7 +4,7 @@ namespace MathematicsFramework.Settheory;
 
 public interface ICompareable<T>
 {
-    IEqualityComparer<T> Comparer { get; }
+     IEqualityComparer<T>  Comparer { get; }
 }
 public interface ICompareable
 {

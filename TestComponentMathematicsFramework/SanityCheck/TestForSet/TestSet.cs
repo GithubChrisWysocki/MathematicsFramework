@@ -60,7 +60,7 @@ namespace TestComponentMathematicsFramework
             //Arrange
             TestElement_Generic_decimal _elementDecimal = new TestElement_Generic_decimal(){Value = 1};
             TestElement_Generic_decimal elementDecimal2 = new TestElement_Generic_decimal(){Value = 2};
-            var setGenericAbstract = new TestSet1Abstract();
+            var setGenericAbstract = new TestSetWithElementDecimal();
             //Act
             setGenericAbstract.AddMember(_elementDecimal);
             setGenericAbstract.AddMember(elementDecimal2);
