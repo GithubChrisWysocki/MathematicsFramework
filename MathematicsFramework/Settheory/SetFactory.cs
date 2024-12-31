@@ -38,7 +38,7 @@ namespace MathematicsFramework.Settheory
             return result;
         }
         
-        public static IMathSetGeneric<T>  CreateSet<T>( T[] setMembers) where T : SetMember, IMathSetGeneric<T>, new() 
+        public static IMathSetGeneric<T> CreateSet<T>( T[] setMembers) where T : SetMember, IMathSetGeneric<T>, new() 
         {
             if (setMembers == null)
                 return new T();
