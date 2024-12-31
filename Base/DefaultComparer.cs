@@ -4,6 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace MathematicsFramework.Settheory
 {
+    //todo:IMplement DI and then comparer as service which is injected as singleton into element and set factory which also are services in DI 
     public class DefaultComparer : IEqualityComparer
     {
         protected CompareLogic comparer { get; }
