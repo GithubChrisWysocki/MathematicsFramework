@@ -38,11 +38,11 @@ namespace MathematicsFramework.Settheory
             return result;
         }
         
-        public static IMathSetGeneric<T> CreateSet<T>( T[] setMembers) where T : SetMember, IMathSetGeneric<T>, new() 
+        public static T CreateSet<T,TU>(params TU[] setMembers) where T: MathSet<TU> ,new() where TU: SetMember
         {
             if (setMembers == null)
                 return new T();
-            var result = CreateSet<T>(null);
+            var result = CreateSet<T,TU>(null);
             foreach (var item in setMembers)
             {
                 result.AddMember(item);

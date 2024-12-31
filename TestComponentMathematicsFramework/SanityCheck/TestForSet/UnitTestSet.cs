@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using MathematicsFramework.Settheory;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TestComponentMathematicsFramework.SanityCheck.SetupForTests;
 
@@ -46,7 +47,7 @@ namespace TestComponentMathematicsFramework
         [TestMethod]
         public void TestPreventSelfReferential()
         {
-            TestSet1Abstract _setAbstract = new TestSet1Abstract();
+            TestSet_Abstract _setAbstract = new TestSet_Abstract();
             var i = _setAbstract.innerMembers.Count;
             
             Assert.ThrowsException<ArgumentException>(() => _setAbstract.AddMember(_setAbstract));
@@ -57,16 +58,16 @@ namespace TestComponentMathematicsFramework
         public void TestIsSetTrue()
         {
             //Arrange
-            TestSet_Abstract _setNonGeneric = new TestSet_Abstract();
-            TestSetOnlyElement _setOnlyElement = new TestSetOnlyElement();
+            TestElement_Generic_decimal _elementDecimal = new TestElement_Generic_decimal(){Value = 1};
+            TestElement_Generic_decimal elementDecimal2 = new TestElement_Generic_decimal(){Value = 2};
             var setGenericAbstract = new TestSet1Abstract();
             //Act
-            setGenericAbstract.AddMember(_setNonGeneric);
-            setGenericAbstract.AddMember(_setOnlyElement);
+            setGenericAbstract.AddMember(_elementDecimal);
+            setGenericAbstract.AddMember(elementDecimal2);
             //Assert
-            Assert.IsTrue(setGenericAbstract[0].IsSet);
-            Assert.IsTrue(setGenericAbstract[1].IsSet);
-            Assert.IsFalse(setGenericAbstract[1].IsSetElement);
+            Assert.IsTrue(setGenericAbstract[0].IsSetElement);
+            Assert.IsTrue(setGenericAbstract[1].IsSetElement);
+            Assert.IsFalse(setGenericAbstract[1].IsSet);
         }
 
         [TestMethod]
@@ -107,9 +108,9 @@ namespace TestComponentMathematicsFramework
         }
 
         [TestMethod]
-        public void TestIsSetMember()
+        public void TestSetFactorySanity()
         {
-            //Set<SetMember> testSet2 = SetFactory.CreateSet<TestSet>(null);
+            var testSet2 = SetFactory.CreateSet<TestSetOnlyElement,TestElement_Abstract>(null);
             //Assert.IsFalse(testSet.ContainsMember(testSet2));
             //testSet2.AddMember(testSet);
             //bool res = testSet2.ContainsMember(testSet);
