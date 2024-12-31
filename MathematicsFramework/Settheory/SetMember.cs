@@ -3,7 +3,7 @@
 
 namespace MathematicsFramework.Settheory
 {
-    public abstract partial class SetMember//: ISetMember{
+    public abstract class SetMember//: ISetMember{
     {
         //public bool IsSetElement<T>() where T:struct
         //    => GetType().IsSubclassOf(typeof(SetElement<T>));

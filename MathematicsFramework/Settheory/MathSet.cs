@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Drawing.Imaging;
 using Base;
-
 
 namespace MathematicsFramework.Settheory
 {
-    public abstract class MathSet : SetMember,IMathSetNonGeneric
+    public abstract class MathSet : SetMember,IMathSetNonGeneric,ICompareable
     {
         public object? this[int key]
         {
@@ -25,6 +23,7 @@ namespace MathematicsFramework.Settheory
         public IEqualityComparer Comparer { get; }
         public ArrayList innerMembers { get; }
 
+        //todo: default constructor is bad idea for set construction Comparer should be injected as singleton through interface and construcor because there can be very many sets and there is only need for one instance of comparer
         public MathSet()
         {
             Comparer = new DefaultComparer();
@@ -79,8 +78,10 @@ namespace MathematicsFramework.Settheory
         }
     }
 
-    public abstract class MathSet<T> : SetMember, IMathSetGeneric<T> where T : SetMember
+    public abstract class MathSet<T> : SetMember,ICompareable<T>, IMathSetGeneric<T> where T : SetMember,ICompareable
     {
+        //todo: default constructor is bad idea for element construction Comparer should be injected as singleton through interface and construcor because there can be very many sets and there is only need for one instance of comparer
+
         public MathSet()
         {
             Comparer = new DefaultComparer<T>();
@@ -89,6 +90,7 @@ namespace MathematicsFramework.Settheory
 
         public MathSet(IEqualityComparer<T> comparer)
         {
+            Comparer = comparer;
             innerMembers = new SetCollection<T>(comparer);
         }
 
@@ -118,7 +120,7 @@ namespace MathematicsFramework.Settheory
             {
                 foreach (var item in innerMembers)
                 {
-                    if (Comparer.Equals(item, memberToCheck)) // Prevent duplicates
+                    if (item.Comparer.Equals(item, memberToCheck)) // Prevent duplicates
                         return (true, item);
                     if (item is MathSet<T> set)
                     {
@@ -130,7 +132,7 @@ namespace MathematicsFramework.Settheory
             }
             else
                 foreach (var item in innerMembers)
-                    if (Comparer.Equals(item, memberToCheck)) // Prevent duplicates
+                    if (item.Comparer.Equals(item, memberToCheck)) // Prevent duplicates
                         return (true,item);
 
             return (false,null);

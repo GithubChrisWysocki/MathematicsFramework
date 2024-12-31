@@ -17,7 +17,7 @@ namespace MathematicsFramework.Settheory
         {
             return comparer.Compare(x, y).AreEqual;
         }
-
+        
         public int GetHashCode(object obj)
         {
             if (obj == null)

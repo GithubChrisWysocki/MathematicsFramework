@@ -26,11 +26,11 @@ namespace MathematicsFramework.Settheory
       //      return new T(); //(Set<SetMember>)Activator.CreateInstance(typeof(T));
       //  }
 
-        public static T CreateSetNonGeneric<T>(params object[] setMembers) where T : MathSet, new()
+        public static IMathSetNonGeneric CreateSet<T>(params object[] setMembers) where T : MathSet, new()
         {
             if (setMembers == null)
                 return new T();
-            var result = CreateSetNonGeneric<T>(null);
+            var result = CreateSet<T>(null);
             foreach (var item in setMembers)
             {
                 result.AddMember(item);
@@ -38,7 +38,7 @@ namespace MathematicsFramework.Settheory
             return result;
         }
         
-        public static T CreateSet<T,TU>(params TU[] setMembers) where T: MathSet<TU> ,new() where TU: SetMember
+        public static IMathSetGeneric<TU> CreateSet<T,TU>(params TU[] setMembers) where T: MathSet<TU> ,new() where TU: SetMember,ICompareable
         {
             if (setMembers == null)
                 return new T();

@@ -7,7 +7,7 @@ using TestComponentMathematicsFramework.SanityCheck.SetupForTests;
 namespace TestComponentMathematicsFramework
 {
     [TestClass]
-    public class UnitTestSet
+    public class TestSet
     {
         [TestMethod]
         public void IgnoreDuplicate()
@@ -95,29 +95,7 @@ namespace TestComponentMathematicsFramework
             _setNonGeneric.AddMember(_elementGenericDecimal);
         }
 
-        [TestMethod]
-        public void TestSetUnion()
-        {
-            //int count = 0;
-            //Set<SetMember> testSet2 = SetFactory.CreateSet<TestSet>(new TestSet[] { new TestSet() });
-            //count = testSet2.innerMembers.Count;
-            //Assert.AreEqual(count, 1);
-            //testSet2.SetUnion(testSet);
-            //count = testSet2.innerMembers.Count;
-            //Assert.AreEqual(count, 3);
-        }
 
-        [TestMethod]
-        public void TestSetFactorySanity()
-        {
-            var testSet2 = SetFactory.CreateSet<TestSetOnlyElement,TestElement_Abstract>(null);
-            //Assert.IsFalse(testSet.ContainsMember(testSet2));
-            //testSet2.AddMember(testSet);
-            //bool res = testSet2.ContainsMember(testSet);
-            //Assert.IsTrue(false);
-            //testSet2.SetUnion(testSet);
-            //Assert.IsTrue(testSet2.ContainsMember(testElement));
-        }
 
         [TestMethod]
         public void TestContainsMemeber()
