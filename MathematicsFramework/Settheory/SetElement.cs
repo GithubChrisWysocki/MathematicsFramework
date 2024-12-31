@@ -2,7 +2,7 @@
 
 namespace MathematicsFramework.Settheory
 {
-    public abstract class SetElement<T> : SetElement
+    public abstract class SetElement<T> : SetElement where T: struct
     {
         private T _value;
         public new T Value
