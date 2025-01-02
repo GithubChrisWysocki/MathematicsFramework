@@ -1,6 +1,4 @@
-﻿
-
-namespace MathematicsFramework.Settheory
+﻿namespace MathematicsFramework.Settheory
 {
     public static class SetFactory
     {
@@ -38,7 +36,7 @@ namespace MathematicsFramework.Settheory
             return result;
         }
         
-        public static IMathSetGeneric<TU> CreateSet<T,TU>(params TU[] setMembers) where T: MathSet<TU> ,new() where TU: SetMember,ICompareable
+        public static IMathSetGeneric<TU> CreateSet<T,TU>(params TU[] setMembers) where T: MathSet<TU> ,new() where TU: SetMember, ICompareable
         {
             if (setMembers == null)
                 return new T();

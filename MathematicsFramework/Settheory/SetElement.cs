@@ -36,7 +36,7 @@ namespace MathematicsFramework.Settheory
         }
     }
 
-    public abstract class SetElement : SetMember,ICompareable
+    public abstract class SetElement : SetMember, ICompareable
     {
         public SetElement()
         {
