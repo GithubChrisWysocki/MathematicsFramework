@@ -39,7 +39,7 @@ namespace MathematicsFramework.Settheory
         public void AddMember(object setMember)
         {
             if (this == setMember)
-                throw new ArgumentException("Member already exists in set and would be selfreferntial.");
+                throw new ArgumentException("Member already exists in set and would be selfreferential.");
 
             if (!ContainsMember(setMember).contains)
                 innerMembers.Add(setMember);
@@ -93,8 +93,6 @@ namespace MathematicsFramework.Settheory
             Comparer = comparer;
             innerMembers = new SetCollection<T>(comparer);
         }
-
-
 
         public T? this[int key]
         {

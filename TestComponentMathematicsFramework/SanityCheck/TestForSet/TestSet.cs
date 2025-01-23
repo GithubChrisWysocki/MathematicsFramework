@@ -1,7 +1,6 @@
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections;
-using MathematicsFramework.Settheory;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TestComponentMathematicsFramework.SanityCheck.SetupForTests;
 
 namespace TestComponentMathematicsFramework
@@ -23,7 +22,7 @@ namespace TestComponentMathematicsFramework
         }
 
         [TestMethod]
-        public void TestCanOnlyAddElementRestrictedByGeneric()
+        public void TestCanOnlyAddElementRestrictedToValueType()
         {
             TestSetOnlyElement _setOnlyElement = new TestSetOnlyElement();
 
@@ -67,6 +66,7 @@ namespace TestComponentMathematicsFramework
             //Assert
             Assert.IsTrue(setGenericAbstract[0].IsSetElement);
             Assert.IsTrue(setGenericAbstract[1].IsSetElement);
+            Assert.IsFalse(setGenericAbstract[0].IsSet);
             Assert.IsFalse(setGenericAbstract[1].IsSet);
         }
 
@@ -80,6 +80,7 @@ namespace TestComponentMathematicsFramework
 
             Assert.IsTrue(setGenericElement[0].IsSetElement);
             Assert.IsTrue(setGenericElement[1].IsSetElement);
+            Assert.IsFalse(setGenericElement[0].IsSet); 
             Assert.IsFalse(setGenericElement[1].IsSet);
         }
 
@@ -94,8 +95,6 @@ namespace TestComponentMathematicsFramework
             _setNonGeneric.AddMember(h2.Add(1));
             _setNonGeneric.AddMember(_elementGenericDecimal);
         }
-
-
 
         [TestMethod]
         public void TestContainsMemeber()

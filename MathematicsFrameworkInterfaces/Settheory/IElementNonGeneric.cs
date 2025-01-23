@@ -1,6 +1,10 @@
-﻿namespace MathematicsFramework.Settheory;
+﻿using System.Collections;
 
-public interface IElementNonGeneric
+namespace MathematicsFramework.Settheory;
+
+public interface IElementNonGeneric:ICompareable
 {
-    
+     object Value { get; }
+
+     IEqualityComparer Comparer { get; }
 }

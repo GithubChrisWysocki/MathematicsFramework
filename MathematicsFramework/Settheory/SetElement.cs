@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using Base;
 
 namespace MathematicsFramework.Settheory
 {
-    public abstract class SetElement<T> : SetElement, ICompareable<T> where T : struct
+    public abstract class SetElement<T> : SetElement, IElementGeneric<T> where T : struct
     {
         //todo: default constructor is bad idea for element construction Comparer should be injected as singleton through interface and construcor because there can be very many sets and there is only need for one instance of comparer
 
@@ -36,7 +35,7 @@ namespace MathematicsFramework.Settheory
         }
     }
 
-    public abstract class SetElement : SetMember, ICompareable
+    public abstract class SetElement : SetMember,IElementNonGeneric
     {
         public SetElement()
         {
@@ -47,13 +46,14 @@ namespace MathematicsFramework.Settheory
         {
             Comparer = comparer;
         }
-        private object _value;
+        private object? _value;
 
-        public object Value
+        public object? Value
         {
             get => _value;
             set
             {
+                //todo: Maybe throwing Exception during runtime is not the best way to handle this. May be a nongeneric Element not restricted to struct should not exist.
                 if (value.GetType().IsValueType)
                     _value = value;
                 else
