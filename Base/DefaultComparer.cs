@@ -1,9 +1,8 @@
 ﻿using KellermanSoftware.CompareNetObjects;
 using System.Collections;
 using System.Diagnostics.CodeAnalysis;
+namespace Base;
 
-namespace MathematicsFramework.Settheory
-{
     //todo:IMplement DI and then comparer as service which is injected as singleton into element and set factory which also are services in DI 
     public class DefaultComparer : IEqualityComparer
     {
@@ -45,4 +44,4 @@ namespace MathematicsFramework.Settheory
             return obj.GetHashCode();
         }
     }
-}
+

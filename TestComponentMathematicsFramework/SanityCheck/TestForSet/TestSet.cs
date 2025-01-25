@@ -11,8 +11,8 @@ namespace TestComponentMathematicsFramework
         [TestMethod]
         public void IgnoreDuplicate()
         {
-            TestSet_Abstract _setNonGeneric = new TestSet_Abstract();
-            TestSetOnlyElement _setOnlyElement = new TestSetOnlyElement();
+            TestSet_Abstract_NonGeneric _setNonGeneric = new TestSet_Abstract_NonGeneric();
+            TestSetCustomElement _setOnlyElement = new TestSetCustomElement();
 
             _setNonGeneric.AddMember(_setOnlyElement);
             var elementCount = _setNonGeneric.innerMembers.Count;
@@ -24,18 +24,18 @@ namespace TestComponentMathematicsFramework
         [TestMethod]
         public void TestCanOnlyAddElementRestrictedToValueType()
         {
-            TestSetOnlyElement _setOnlyElement = new TestSetOnlyElement();
+            TestSetCustomElement _setOnlyElement = new TestSetCustomElement();
 
-            _setOnlyElement.AddMember(new TestElement_Abstract() { Value = new decimal() });
+            _setOnlyElement.AddMember(new TestElement_Abstract_NonGeneric() { Value = new decimal() });
             
             Assert.ThrowsException<ArgumentException>(() =>
-                _setOnlyElement.AddMember(new TestElement_Abstract() { Value = new object() }));
+                _setOnlyElement.AddMember(new TestElement_Abstract_NonGeneric() { Value = new object() }));
         }
 
         [TestMethod]
         public void TestAddMemberOrSetIncreaseCountByOne()
         {
-            TestSet_Abstract _setNonGeneric = new TestSet_Abstract();
+            TestSet_Abstract_NonGeneric _setNonGeneric = new TestSet_Abstract_NonGeneric();
             var countbeforeAdd = _setNonGeneric.innerMembers.Count;
             
             _setNonGeneric.AddMember(new object());
@@ -46,7 +46,7 @@ namespace TestComponentMathematicsFramework
         [TestMethod]
         public void TestPreventSelfReferential()
         {
-            TestSet_Abstract _setAbstract = new TestSet_Abstract();
+            TestSet_Abstract_NonGeneric _setAbstract = new TestSet_Abstract_NonGeneric();
             var i = _setAbstract.innerMembers.Count;
             
             Assert.ThrowsException<ArgumentException>(() => _setAbstract.AddMember(_setAbstract));
@@ -73,10 +73,10 @@ namespace TestComponentMathematicsFramework
         [TestMethod]
         public void TestSetElementIsTrue()
         {
-            var setGenericElement = new TestSetOnlyElement();
+            var setGenericElement = new TestSetCustomElement();
             
-            setGenericElement.AddMember(new TestElement_Abstract() { Value = 1 });
-            setGenericElement.AddMember(new TestElement_Abstract() { Value = 2 });
+            setGenericElement.AddMember(new TestElement_Abstract_NonGeneric() { Value = 1 });
+            setGenericElement.AddMember(new TestElement_Abstract_NonGeneric() { Value = 2 });
 
             Assert.IsTrue(setGenericElement[0].IsSetElement);
             Assert.IsTrue(setGenericElement[1].IsSetElement);
@@ -88,7 +88,7 @@ namespace TestComponentMathematicsFramework
         public void TestCanAddRandomObjectToNongenericSet()
         {
             TestElement_Generic_decimal _elementGenericDecimal = new TestElement_Generic_decimal();
-            TestSet_Abstract _setNonGeneric = new TestSet_Abstract();
+            TestSet_Abstract_NonGeneric _setNonGeneric = new TestSet_Abstract_NonGeneric();
             _setNonGeneric.AddMember(1);
             var h2 = new ArrayList();
             _setNonGeneric.AddMember("asdf");
@@ -99,13 +99,13 @@ namespace TestComponentMathematicsFramework
         [TestMethod]
         public void TestContainsMemeber()
         {
-            TestElement_Abstract _elementAbstract = new TestElement_Abstract();
-            TestSetOnlyElement _setOnlyElement = new TestSetOnlyElement();
+            TestElement_Abstract_NonGeneric _elementAbstract = new TestElement_Abstract_NonGeneric();
+            TestSetCustomElement _setOnlyElement = new TestSetCustomElement();
             
             _setOnlyElement.AddMember(_elementAbstract);
             
             Assert.IsTrue(_setOnlyElement.ContainsMember(_elementAbstract).contains);
-            Assert.IsFalse(_setOnlyElement.ContainsMember(new TestElement_Abstract() { Value = 122 }).contains);
+            Assert.IsFalse(_setOnlyElement.ContainsMember(new TestElement_Abstract_NonGeneric() { Value = 122 }).contains);
         }
     }
 }

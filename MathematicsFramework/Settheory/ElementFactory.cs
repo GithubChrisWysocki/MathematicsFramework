@@ -11,8 +11,10 @@ public class ElementFactory
     }
 
     public static IElementNonGeneric CreateElement<T>(object? elementValue)
-        where T : SetElement, new() 
+        where T : SetElement, new()
     {
+        if (elementValue == null)
             return new T();
+        return new T() { Value = elementValue };
     }
 }
