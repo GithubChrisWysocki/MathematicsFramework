@@ -5,18 +5,26 @@ namespace MathematicsFramework.Settheory
 {
     public static class SetOperations
     {
-        public static void SetUnion<T>(this IMathSetGeneric<T> mathSet, IMathSetGeneric<T> unionMathSet)
+        public static void SetUnionMerge<T>(this IMathSetGeneric<T> mathSet, IMathSetGeneric<T> unionMathSet)
             where T : SetMember
         {
             mathSet.innerMembers.UnionWith(unionMathSet.innerMembers);
         }
 
-        public static void SetUnion(this MathSet mathSet, MathSet unionMathSet)
+        public static void SetUnionMerge(this IMathSetNonGeneric mathSet, IMathSetNonGeneric unionMathSet)
         {
             mathSet.innerMembers.UnionWith(unionMathSet);
         }
 
-        private static void UnionWith(this ArrayList arrList, MathSet set)
+        public static IMathSetNonGeneric SetUnionNew<T>(MathSet mathSet, MathSet unionMathSet) where T:MathSet,new()
+        {
+            var retSet = SetFactory.CreateSet<T>(null);
+            //todo: geht auch jeweils zwei parallele foreach
+            retSet.innerMembers.UnionWith(mathSet);
+            retSet.innerMembers.UnionWith(unionMathSet);
+            return retSet;
+        }
+        private static void UnionWith(this ArrayList arrList, IMathSetNonGeneric set)
         {
             foreach (var item in set.innerMembers)
             {
@@ -31,11 +39,11 @@ namespace MathematicsFramework.Settheory
             where T : SetMember
         {
             var intersection = mathSet.innerMembers.Intersect(intersectMathSet.innerMembers).ToList();
-            mathSet.innerMembers.Clear();
-            foreach (var item in intersection)
-            {
-                mathSet.innerMembers.Add(item);
-            }
+            //mathSet.innerMembers.Clear();
+            //foreach (var item in intersection)
+            //{
+            //    mathSet.innerMembers.Add(item);
+            //}
         }
 
         public static void SetDifference<T>(this IMathSetGeneric<T> mathSet, IMathSetGeneric<T> differenceMathSet)
