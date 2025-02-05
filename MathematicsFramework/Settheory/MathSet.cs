@@ -5,7 +5,7 @@ using Base;
 
 namespace MathematicsFramework.Settheory
 {
-    public abstract class MathSet : SetMember,IMathSetNonGeneric,ICompareable
+    public abstract class MathSet : SetMember, IMathSetNonGeneric 
     {
         public object? this[int key]
         {
@@ -20,25 +20,33 @@ namespace MathematicsFramework.Settheory
             }
         }
 
-        public IEqualityComparer Comparer { get; }
-        public ArrayList innerMembers { get; }
-
-        //todo: default constructor is bad idea for set construction Comparer should be injected as singleton through interface and construcor because there can be very many sets and there is only need for one instance of comparer
-        public MathSet()
+        private IEqualityComparer<object> _comparer;
+        public IEqualityComparer<object> Comparer
         {
-            Comparer = new DefaultComparer();
-            innerMembers = new ArrayList();
+            get
+            {
+                if (_comparer == null)
+                    _comparer = new DefaultComparer<object>();
+                return _comparer;
+            }
+            set { _comparer = value; }
         }
 
-        public MathSet(IEqualityComparer comparer)
+        private SetCollection<object> _innerMembers;
+        public SetCollection<object> innerMembers
         {
-            Comparer = comparer;
-            innerMembers = new ArrayList();
+            get
+            {
+                if (_innerMembers == null)
+                    _innerMembers = new SetCollection<object>(Comparer);
+                return _innerMembers;
+            }
         }
+
 
         public void AddMember(object setMember)
         {
-            if (this == setMember)
+            if (Comparer.Equals(this, setMember))
                 throw new ArgumentException("Member already exists in set and would be selfreferential.");
 
             if (!ContainsMember(setMember).contains)
@@ -51,8 +59,13 @@ namespace MathematicsFramework.Settheory
             if (contains)
                 innerMembers.Remove(innerMember);
         }
-
-        public (bool contains, object? innerMember) ContainsMember(object memberToCheck, bool recursive = false)
+        /// <summary>
+        /// recursive - checks each nested set also if it contains the member
+        /// </summary>
+        /// <param name="memberToCheck"></param>
+        /// <param name="recursive"></param>
+        /// <returns></returns>
+        public (bool contains, object? innerMember)  ContainsMember(object memberToCheck, bool recursive = false)
         {
             //todo: das kann man parallelisieren
             if (recursive)
@@ -72,29 +85,14 @@ namespace MathematicsFramework.Settheory
             else
                 foreach (var item in innerMembers)
                     if (Comparer.Equals(item, memberToCheck)) // Prevent duplicates
-                        return (true,item);
+                        return (true, item);
 
-            return (false,null);
+            return (false, null);
         }
     }
-
-    public abstract class MathSet<T> : SetMember,ICompareable<T>, IMathSetGeneric<T> where T : SetMember,ICompareable
+    public abstract class MathSet<T> : SetMember, IMathSetNonGeneric where T : IEqualityComparer<object>,new()
     {
-        //todo: default constructor is bad idea for element construction Comparer should be injected as singleton through interface and construcor because there can be very many sets and there is only need for one instance of comparer
-
-        public MathSet()
-        {
-            Comparer = new DefaultComparer<T>();
-            innerMembers = new SetCollection<T>(Comparer);
-        }
-
-        public MathSet(IEqualityComparer<T> comparer)
-        {
-            Comparer = comparer;
-            innerMembers = new SetCollection<T>(comparer);
-        }
-
-        public T? this[int key]
+        public object? this[int key]
         {
             get
             {
@@ -107,22 +105,63 @@ namespace MathematicsFramework.Settheory
             }
         }
 
-        public IEqualityComparer<T> Comparer { get; }
+        private IEqualityComparer<object> _comparer;
+        public IEqualityComparer<object> Comparer
+        {
+            get 
+            { 
+                if(_comparer == null)
+                    _comparer = new T();
+                return _comparer; 
+            }
+            set { _comparer = value; }
+        }
 
-        public SetCollection<T> innerMembers { get; }
+        private SetCollection<object> _innerMembers;
+        public  SetCollection<object> innerMembers
+        {
+            get 
+            { 
+                if (_innerMembers == null)
+                    _innerMembers = new SetCollection<object>(Comparer);
+                return _innerMembers; 
+            }
+        }
 
-        public (bool contains, T? innerMember) ContainsMember(T memberToCheck, bool recursive = false)
+
+        public void AddMember(object setMember)
+        {
+            if (Comparer.Equals(this, setMember))
+                throw new ArgumentException("Member already exists in set and would be selfreferential.");
+
+            if (!ContainsMember(setMember).contains)
+                innerMembers.Add(setMember);
+        }
+
+        public void RemoveMember(object setMember)
+        {
+            (bool contains, object innerMember) = ContainsMember(setMember);
+            if (contains)
+                innerMembers.Remove(innerMember);
+        }
+        /// <summary>
+        /// recursive - checks each nested set also if it contains the member
+        /// </summary>
+        /// <param name="memberToCheck"></param>
+        /// <param name="recursive"> checks each nested set also if it contains the member</param>
+        /// <returns></returns>
+        public (bool contains, object? innerMember) ContainsMember(object memberToCheck, bool recursive = false)
         {
             //todo: das kann man parallelisieren
             if (recursive)
             {
                 foreach (var item in innerMembers)
                 {
-                    if (item.Comparer.Equals(item, memberToCheck)) // Prevent duplicates
+                    if (Comparer.Equals(item, memberToCheck)) // Prevent duplicates
                         return (true, item);
                     if (item is MathSet<T> set)
                     {
-                        (bool contains, T innerMember) = set.ContainsMember(memberToCheck, true);
+                        (bool contains, object innerMember) = set.ContainsMember(memberToCheck, true);
                         if (contains)
                             return (true, innerMember);
                     }
@@ -130,26 +169,104 @@ namespace MathematicsFramework.Settheory
             }
             else
                 foreach (var item in innerMembers)
-                    if (item.Comparer.Equals(item, memberToCheck)) // Prevent duplicates
+                    if (Comparer.Equals(item, memberToCheck)) // Prevent duplicates
                         return (true,item);
 
             return (false,null);
         }
-
-        public void AddMember(T setMember)
-        {
-            if (this == setMember)
-                throw new ArgumentException("Member already exists in set and would be selfreferntial.");
-
-            if (!ContainsMember(setMember).contains)
-                innerMembers.Add(setMember);
-        }
-
-        public void RemoveMember(T setMember)
-        {
-            (bool contains, T innerMember) = ContainsMember(setMember);
-            if (contains)
-                innerMembers.Remove(innerMember);
-        }
     }
+    //public abstract class MathSet<T,U> : SetMember, ICompareable<T>, IMathSetGeneric<T> where T : SetMember, ICompareable where U: IEqualityComparer<object>,new()
+    //{
+    //    public T? this[int key]
+    //    {
+    //        get
+    //        {
+    //            int i = 0;
+    //            foreach (var item in innerMembers)
+    //                if (key == i++)
+    //                    return item;
+
+    //            return default;
+    //        }
+    //    }
+
+    //    //todo: default constructor is bad idea for element construction Comparer should be injected as singleton through interface and construcor because there can be very many sets and there is only need for one instance of comparer
+
+    //    public MathSet()
+    //    {
+    //         innerMembers = new SetCollection<T>(Comparer);
+    //    }
+
+    //    //public MathSet(IEqualityComparer<T> comparer)
+    //    //{
+    //    //    Comparer = comparer;
+    //    //    innerMembers = new SetCollection<T>(comparer);
+    //    //}
+
+    //    private IEqualityComparer<T> _comparer;
+    //    public IEqualityComparer<T> Comparer
+    //    {
+    //        get
+    //        {
+    //            if (_comparer == null)
+    //                _comparer = new U();
+    //            return _comparer;
+    //        }
+    //        set { _comparer = value; }
+    //    }
+
+    //    private SetCollection<object> _innerMembers;
+    //    public SetCollection<object> innerMembers
+    //    {
+    //        get
+    //        {
+    //            if (_innerMembers == null)
+    //                _innerMembers = new SetCollection<object>(Comparer);
+    //            return _innerMembers;
+    //        }
+    //    }
+
+    //    public SetCollection<T> innerMembers { get; }
+
+    //    public (bool contains, T? innerMember) ContainsMember(T memberToCheck, bool recursive = false)
+    //    {
+    //        //todo: das kann man parallelisieren
+    //        if (recursive)
+    //        {
+    //            foreach (var item in innerMembers)
+    //            {
+    //                if (item.Comparer.Equals(item, memberToCheck)) // Prevent duplicates
+    //                    return (true, item);
+    //                if (item is MathSet<T,U> set)
+    //                {
+    //                    (bool contains, T innerMember) = set.ContainsMember(memberToCheck, true);
+    //                    if (contains)
+    //                        return (true, innerMember);
+    //                }
+    //            }
+    //        }
+    //        else
+    //            foreach (var item in innerMembers)
+    //                if (item.Comparer.Equals(item, memberToCheck)) // Prevent duplicates
+    //                    return (true,item);
+
+    //        return (false,null);
+    //    }
+
+    //    public void AddMember(T setMember)
+    //    {
+    //        if (Comparer. .Equals(this, setMember))
+    //            throw new ArgumentException("Member already exists in set and would be selfreferntial.");
+
+    //        if (!ContainsMember(setMember).contains)
+    //            innerMembers.Add(setMember);
+    //    }
+
+    //    public void RemoveMember(T setMember)
+    //    {
+    //        (bool contains, T innerMember) = ContainsMember(setMember);
+    //        if (contains)
+    //            innerMembers.Remove(innerMember);
+    //    }
+    //}
 }

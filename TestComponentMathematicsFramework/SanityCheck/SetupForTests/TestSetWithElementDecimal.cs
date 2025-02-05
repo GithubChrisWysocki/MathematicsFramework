@@ -2,4 +2,4 @@
 
 namespace TestComponentMathematicsFramework.SanityCheck.SetupForTests;
 
-public class TestSetWithElementDecimal : MathSet<TestElement_Generic_decimal> { }
+public class TestSetWithElementDecimal : MathSetGeneric<TestElement_Generic_decimal> { }

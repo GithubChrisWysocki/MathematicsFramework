@@ -1,13 +1,14 @@
-﻿using System.Collections;
+﻿using Base;
+using System.Collections;
 
 namespace MathematicsFramework.Settheory;
 
 public interface IMathSetNonGeneric
 {
-    IEqualityComparer Comparer { get;  }
+    IEqualityComparer<object> Comparer { get;  }
     (bool contains, object? innerMember) ContainsMember(object memberToCheck, bool recursive = false);
     void AddMember(object setMember);
     void RemoveMember(object setMember);
-    ArrayList innerMembers { get; }
+    SetCollection<object> innerMembers { get; }
 
 }

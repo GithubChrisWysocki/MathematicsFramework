@@ -2,7 +2,7 @@
 
 namespace TestComponentMathematicsFramework.SanityCheck.SetupForTests;
 
-public class TestSetCustomElement : MathSet<TestElement_Abstract_NonGeneric>
+public class TestSetCustomElement : MathSetGeneric<TestElement_Abstract_NonGeneric>
 {
     
 }

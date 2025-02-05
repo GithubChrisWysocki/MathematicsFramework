@@ -10,10 +10,10 @@ namespace TestComponentMathematicsFramework.SetOps
         [TestMethod]
         public void TestSetCanUnionEmptySetsStaysZero()
         {
-            var emptyset3 = SetFactory.CreateSet<TestSet_Abstract_NonGeneric>(null);
-            var eptyset5 = SetFactory.CreateSet<TestSet_Abstract_NonGeneric2>(null);
+            var emptyset3 = SetFactoryNonGenericSet.CreateSetWithDefaultComparer<TestSet_Abstract_NonGeneric>(null);
+            var eptyset5 = SetFactoryNonGenericSet.CreateSetWithDefaultComparer<TestSet_Abstract_NonGeneric2>(null);
 
-            emptyset3.SetUnionMerge(eptyset5);
+            emptyset3.UnionMergeWith(eptyset5);
 
             Assert.AreEqual(emptyset3.innerMembers.Count, 0);
         }

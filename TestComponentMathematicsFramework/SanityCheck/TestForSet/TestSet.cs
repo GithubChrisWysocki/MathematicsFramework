@@ -1,3 +1,4 @@
+using Base;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections;
@@ -12,7 +13,7 @@ namespace TestComponentMathematicsFramework
         public void IgnoreDuplicate()
         {
             TestSet_Abstract_NonGeneric _setNonGeneric = new TestSet_Abstract_NonGeneric();
-            TestSetCustomElement _setOnlyElement = new TestSetCustomElement();
+            TestSetCustomElement _setOnlyElement = new TestSetCustomElement() { Comparer=new DefaultComparer<TestElement_Abstract_NonGeneric>()};
 
             _setNonGeneric.AddMember(_setOnlyElement);
             var elementCount = _setNonGeneric.innerMembers.Count;
@@ -24,7 +25,7 @@ namespace TestComponentMathematicsFramework
         [TestMethod]
         public void TestCanOnlyAddElementRestrictedToValueType()
         {
-            TestSetCustomElement _setOnlyElement = new TestSetCustomElement();
+            TestSetCustomElement _setOnlyElement = new TestSetCustomElement() { Comparer = new DefaultComparer<TestElement_Abstract_NonGeneric>() };
 
             _setOnlyElement.AddMember(new TestElement_Abstract_NonGeneric() { Value = new decimal() });
             
@@ -59,7 +60,7 @@ namespace TestComponentMathematicsFramework
             //Arrange
             TestElement_Generic_decimal _elementDecimal = new TestElement_Generic_decimal(){Value = 1};
             TestElement_Generic_decimal elementDecimal2 = new TestElement_Generic_decimal(){Value = 2};
-            var setGenericAbstract = new TestSetWithElementDecimal();
+            var setGenericAbstract = new TestSetWithElementDecimal() { Comparer = new DefaultComparer<TestElement_Generic_decimal>() };
             //Act
             setGenericAbstract.AddMember(_elementDecimal);
             setGenericAbstract.AddMember(elementDecimal2);
@@ -73,8 +74,8 @@ namespace TestComponentMathematicsFramework
         [TestMethod]
         public void TestSetElementIsTrue()
         {
-            var setGenericElement = new TestSetCustomElement();
-            
+            var setGenericElement = new TestSetCustomElement() { Comparer = new DefaultComparer<TestElement_Abstract_NonGeneric>() };
+
             setGenericElement.AddMember(new TestElement_Abstract_NonGeneric() { Value = 1 });
             setGenericElement.AddMember(new TestElement_Abstract_NonGeneric() { Value = 2 });
 
@@ -100,8 +101,8 @@ namespace TestComponentMathematicsFramework
         public void TestContainsMemeber()
         {
             TestElement_Abstract_NonGeneric _elementAbstract = new TestElement_Abstract_NonGeneric();
-            TestSetCustomElement _setOnlyElement = new TestSetCustomElement();
-            
+            TestSetCustomElement _setOnlyElement = new TestSetCustomElement() { Comparer = new DefaultComparer<TestElement_Abstract_NonGeneric>() };
+
             _setOnlyElement.AddMember(_elementAbstract);
             
             Assert.IsTrue(_setOnlyElement.ContainsMember(_elementAbstract).contains);

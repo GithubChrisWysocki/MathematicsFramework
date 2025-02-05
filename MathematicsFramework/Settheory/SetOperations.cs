@@ -1,39 +1,40 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace MathematicsFramework.Settheory
 {
     public static class SetOperations
     {
-        public static void SetUnionMerge<T>(this IMathSetGeneric<T> mathSet, IMathSetGeneric<T> unionMathSet)
+        public static void UnionMergeWith<T>(this IMathSetGeneric<T> mathSet, IMathSetGeneric<T> unionMathSet)
             where T : SetMember
         {
             mathSet.innerMembers.UnionWith(unionMathSet.innerMembers);
         }
 
-        public static void SetUnionMerge(this IMathSetNonGeneric mathSet, IMathSetNonGeneric unionMathSet)
+        public static void UnionMergeWith(this IMathSetNonGeneric mathSet, IMathSetNonGeneric unionMathSet)
         {
-            mathSet.innerMembers.UnionWith(unionMathSet);
+            mathSet.innerMembers.UnionWith(unionMathSet.innerMembers);
         }
 
-        public static IMathSetNonGeneric SetUnionNew<T>(MathSet mathSet, MathSet unionMathSet) where T:MathSet,new()
+        public static IMathSetNonGeneric UnionGetNew<T,U>(MathSet<U> mathSet, MathSet<U> unionMathSet) where T:MathSet<U>,new() where U: IEqualityComparer<object>, new()
         {
-            var retSet = SetFactory.CreateSet<T>(null);
+            var retSet = SetFactoryNonGenericSet.CreateSetWithCustomComparer<T,U>(mathSet.innerMembers);
             //todo: geht auch jeweils zwei parallele foreach
-            retSet.innerMembers.UnionWith(mathSet);
-            retSet.innerMembers.UnionWith(unionMathSet);
+            retSet.innerMembers.UnionWith(unionMathSet.innerMembers);
             return retSet;
         }
-        private static void UnionWith(this ArrayList arrList, IMathSetNonGeneric set)
-        {
-            foreach (var item in set.innerMembers)
-            {
-                if (!set.ContainsMember(item).contains) // Prevent duplicates
-                {
-                    arrList.Add(item);
-                }
-            }
-        }
+
+        //private static void UnionWith(this ArrayList arrList, IMathSetNonGeneric set)
+        //{
+        //    foreach (var item in set.innerMembers)
+        //    {
+        //        if (!set.ContainsMember(item).contains) // Prevent duplicates
+        //        {
+        //            arrList.Add(item);
+        //        }
+        //    }
+        //}
 
         public static void SetIntersection<T>(this IMathSetGeneric<T> mathSet, IMathSetGeneric<T> intersectMathSet)
             where T : SetMember
